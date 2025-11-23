@@ -1,16 +1,43 @@
-# React + Vite
+# 🌐 Personal Portfolio – Kartik Upadhyay
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is my personal portfolio website designed to showcase my skills, projects, experience, and achievements as a **MERN Stack Developer**. The portfolio highlights my development journey and serves as a platform for recruiters, collaborators, and clients.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
+- Fully responsive & modern UI
+- Smooth animations and clean layout
+- Projects section with live preview & GitHub links
+- Skills, experience, and education overview
+- Social media & contact options for hiring/collaboration
 
-## React Compiler
+---
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## 🛠 Tech Stack
+- **Frontend:** React.js, HTML, CSS, JavaScript
+- **Styling:** TailwindCSS / Bootstrap / Custom CSS
+- **Backend (optional):** Node.js, Express.js
+- **Database (optional):** MongoDB
+- **Tools:** Git, GitHub, VS Code, Postman
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📂 Projects Included
+| Project | Tech | Description |
+|--------|------|-------------|
+| E-Learning System | MERN | Online platform for accessing study materials & videos |
+| Food Delivery App | MERN | Real-time food ordering with cart & MongoDB |
+| Health Service App | MERN | Booking & patient management with dynamic dashboard |
+
+> More projects are available inside the Portfolio Projects section.
+
+---
+
+## 🚀 Installation & Setup
+Follow the steps to run this project locally:
+
+```bash
+git clone https://github.com/kartik-613/your-portfolio.git
+cd your-portfolio
+npm install
+npm run dev
