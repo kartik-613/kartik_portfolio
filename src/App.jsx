@@ -180,7 +180,7 @@ export default function App() {
               </div>
             </motion.div>
 
-            <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 0 }} transition={{ duration: 0.6 }} className="flex justify-center lg:justify-end">
+            <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 2 }} transition={{ duration: 0.6 }} className="flex justify-center lg:justify-end">
               <div className="w-64 h-72 rounded-xl  opacity-80 overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
                 <img src={profilipic} alt="Kartik Upadhyay" className="w-full h-full object-cover" />
               </div>
