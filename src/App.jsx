@@ -176,7 +176,7 @@ export default function App() {
                 )
               )}
               <a
-                href="../public/Kartik_Resume.pdf"
+                href={Kartik_Resume}
                   download="Kartik_Resume.pdf"
                 className="py-2 text-sm hover:text-orange-400 transition"
               >
@@ -215,7 +215,7 @@ export default function App() {
                   View Projects
                 </a>
                 <a
-                  href="../public/Kartik_Resume.pdf"
+                  href={Kartik_Resume}
                   download="Kartik_Resume.pdf"
                   className="px-5 py-2 rounded-full border border-gray-300 dark:border-gray-700"
                 >
