@@ -121,9 +121,8 @@ export default function App() {
               Contact
             </a>
             <a
-              href="/assets/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="../public/Kartik_Resume.pdf"
+                  download="Kartik_Resume.pdf"
               className="ml-2 px-4 py-1 rounded-md border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition"
             >
               Download Resume
@@ -176,9 +175,8 @@ export default function App() {
                 )
               )}
               <a
-                href="/assets/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="../public/Kartik_Resume.pdf"
+                  download="Kartik_Resume.pdf"
                 className="py-2 text-sm hover:text-orange-400 transition"
               >
                 Download Resume
@@ -216,15 +214,12 @@ export default function App() {
                   View Projects
                 </a>
                 <a
-                  href="/assets/image.png"
-                  download="Kartik_Resume.png"
+                  href="../public/Kartik_Resume.pdf"
+                  download="Kartik_Resume.pdf"
                   className="px-5 py-2 rounded-full border border-gray-300 dark:border-gray-700"
                 >
                   Download Resume
                 </a>
-                <a href="/assets/Kartik_Resume.pdf" download className="px-5 py-2 border rounded-full">
-  Download Resume
-</a>
 
                 <a
                   href="mailto:kartikupadhyay613@gmail.com"
