@@ -7,6 +7,7 @@ import one from "./assets/one.jpeg";
 import two from "./assets/two.gif";
 import three from "./assets/three.gif";
 import four from "./assets/four.jpeg";
+import Kartik_Resume from "../public/Kartik_Resume.pdf";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const PROJECTS = [
@@ -121,7 +122,7 @@ export default function App() {
               Contact
             </a>
             <a
-              href="../public/Kartik_Resume.pdf"
+              href={Kartik_Resume}
                   download="Kartik_Resume.pdf"
               className="ml-2 px-4 py-1 rounded-md border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition"
             >
