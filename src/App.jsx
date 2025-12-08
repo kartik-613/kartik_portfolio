@@ -1,6 +1,7 @@
 // App.jsx
 import React, { useState, useEffect } from "react";
-import profilipic from "./assets/profile.jpg";
+import profilepic from "./assets/profile.jpg";
+// import profilepic1 from "./assets/profile1.png";
 import { HiMenu, HiX, HiSun, HiMoon } from "react-icons/hi";
 import { motion } from "framer-motion";
 import one from "./assets/one.jpeg";
@@ -16,7 +17,7 @@ const PROJECTS = [
     tech: ["React", "Node.js", "Express", "MongoDB", "Stripe", "Google OAuth"],
     img: one,
     desc: "Full-stack platform for course management, enrollment, progress tracking, automated certificate generation, and face-detection attendance.",
-    link: "#", // replace with deployed link or repo
+    link: "https://www.erp.miracleitindia.com/", // replace with deployed link or repo
   },
   {
     title: "Food Delivery Web App",
@@ -258,7 +259,7 @@ export default function App() {
             >
               <div className="w-64 h-72 rounded-xl  opacity-90 overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
                 <img
-                  src={profilipic}
+                  src={profilepic}
                   alt="Kartik Upadhyay"
                   className="w-full h-full object-cover"
                 />
