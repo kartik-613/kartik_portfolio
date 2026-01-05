@@ -1,6 +1,6 @@
 // App.jsx
 import React, { useState, useEffect } from "react";
-import profilepic from "./assets/profile.jpg";
+import profilepic from "./assets/profile.png";
 // import profilepic1 from "./assets/profile1.png";
 import { HiMenu, HiX, HiSun, HiMoon } from "react-icons/hi";
 import { motion } from "framer-motion";
