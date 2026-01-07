@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from "react";
 import profilepic from "./assets/profile.png";
 // import profilepic1 from "./assets/profile1.png";
-import { HiMenu, HiX, HiSun, HiMoon } from "react-icons/hi";
+import Navbar from "./components/Navbar";
 import { motion } from "framer-motion";
 import one from "./assets/one.jpeg";
 import two from "./assets/two.gif";
 import three from "./assets/three.gif";
 import four from "./assets/four.jpeg";
-import Kartik_Resume from "../public/Kartik_Resume.pdf";
+import Kartik_Resume from "./assets/Kartik_Resume.pdf";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const PROJECTS = [
@@ -83,112 +83,30 @@ const EXPERIENCE = [
 ];
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "dark";
+  });
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    console.log("Switching theme from", theme, "to", newTheme);
+    setTheme(newTheme);
+  };
 
   useEffect(() => {
+    localStorage.setItem("theme", theme);
+    const root = document.documentElement;
     if (theme === "dark") {
-      document.documentElement.classList.add("dark");
+      root.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      root.classList.remove("dark");
     }
   }, [theme]);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
-      {/* Header */}
-      <header className="fixed w-full top-0 left-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="text-2xl font-bold tracking-wide">KARTIK</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              MERN Stack Developer
-            </div>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-8 text-sm">
-            <a href="#home" className="hover:text-orange-400 transition">
-              Home
-            </a>
-            <a href="#projects" className="hover:text-orange-400 transition">
-              Projects
-            </a>
-            <a href="#experience" className="hover:text-orange-400 transition">
-              Experience
-            </a>
-            <a href="#skills" className="hover:text-orange-400 transition">
-              Skills
-            </a>
-            <a href="#contact" className="hover:text-orange-400 transition">
-              Contact
-            </a>
-            <a
-              href={Kartik_Resume}
-                  download="Kartik_Resume.pdf"
-              className="ml-2 px-4 py-1 rounded-md border border-gray-300 dark:border-gray-700 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              Download Resume
-            </a>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-              aria-label="Toggle theme"
-              className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              {theme === "dark" ? (
-                <HiSun className="w-5 h-5" />
-              ) : (
-                <HiMoon className="w-5 h-5" />
-              )}
-            </button>
-
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label="Open menu"
-                className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-              >
-                {isOpen ? (
-                  <HiX className="w-6 h-6" />
-                ) : (
-                  <HiMenu className="w-6 h-6" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile nav */}
-        {isOpen && (
-          <nav className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
-            <div className="flex flex-col px-6 py-4 gap-3">
-              {["home", "projects", "experience", "skills", "contact"].map(
-                (item) => (
-                  <a
-                    key={item}
-                    href={`#${item}`}
-                    onClick={() => setIsOpen(false)}
-                    className="py-2 text-sm hover:text-orange-400 transition"
-                  >
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
-                  </a>
-                )
-              )}
-              <a
-                href={Kartik_Resume}
-                  download="Kartik_Resume.pdf"
-                className="py-2 text-sm hover:text-orange-400 transition"
-              >
-                Download Resume
-              </a>
-            </div>
-          </nav>
-        )}
-      </header>
-
-      <main className="pt-24">
+    <div className={`min-h-screen transition-all duration-500 ${theme === 'dark' ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
+      <Navbar theme={theme} toggleTheme={toggleTheme} resumeLink={Kartik_Resume} />
+      <main className="pt-32">
         {/* Hero */}
         <section id="home" className="max-w-6xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -198,10 +116,14 @@ export default function App() {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-                Hi, I'm <span className="text-orange-400">Kartik Upadhyay</span>{" "}
+                Hi, I'm <span className={`${
+                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                }`}>Kartik Upadhyay</span>{" "}
                 — MERN Stack Developer
               </h1>
-              <p className="mt-4 text-gray-600 dark:text-gray-300 max-w-xl">
+              <p className={`mt-4 max-w-xl text-lg leading-relaxed ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
                 I build scalable web applications and delightful user
                 experiences using React, Node.js, and MongoDB. I have hands-on
                 experience with authentication, payments (Stripe), REST APIs,
@@ -211,7 +133,9 @@ export default function App() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <a
                   href="#projects"
-                  className="bg-orange-400 text-black px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform"
+                  className={`px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform ${
+                    theme === 'dark' ? 'bg-white text-black hover:bg-gray-100' : 'bg-gray-900 text-white hover:bg-gray-800'
+                  }`}
                 >
                   View Projects
                 </a>
@@ -225,7 +149,9 @@ export default function App() {
 
                 <a
                   href="mailto:kartikupadhyay613@gmail.com"
-                  className="px-5 py-2 rounded-full border border-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                  className={`px-5 py-2 rounded-full border border-transparent transition ${
+                    theme === 'dark' ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-700'
+                  }`}
                 >
                   <FaEnvelope className="inline-block mr-2 -mt-1" /> Email Me
                 </a>
@@ -271,7 +197,9 @@ export default function App() {
         {/* Skills */}
         <section id="skills" className="max-w-6xl mx-auto px-6 py-10">
           <h2 className="text-2xl font-semibold mb-4">Core Skills</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl">
+          <p className={`mb-6 max-w-2xl text-lg leading-relaxed ${
+            theme === 'dark' ? 'text-gray-200' : 'text-gray-800'
+          }`}>
             Strong background in front-end and back-end development using modern
             JavaScript tooling and cloud deployment.
           </p>
@@ -281,7 +209,11 @@ export default function App() {
               <motion.div
                 key={i}
                 whileHover={{ scale: 1.03 }}
-                className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm"
+                className={`border rounded-xl p-4 text-sm font-medium backdrop-blur-md transition-all duration-300 hover:shadow-lg ${
+                  theme === 'dark' 
+                    ? 'bg-gray-800/50 border-gray-700 text-gray-200 hover:bg-gray-700/50' 
+                    : 'bg-white/20 border-white/30 text-slate-800 shadow-sm hover:bg-white/30'
+                }`}
               >
                 {skill}
               </motion.div>
@@ -290,63 +222,91 @@ export default function App() {
         </section>
 
         {/* Projects */}
-        <section id="projects" className="bg-gray-50 dark:bg-gray-800 py-12">
+        <section id="projects" className={`py-12 ${
+          theme === 'dark' ? 'bg-gray-800' : 'bg-white/60 backdrop-blur-sm'
+        }`}>
           <div className="max-w-6xl mx-auto px-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-semibold">Highlighted Projects</h2>
-              <a href="#projects" className="text-sm text-orange-400">
+              <a href="#projects" className="text-sm text-gray-400">
                 See all projects
               </a>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {PROJECTS.map((p, idx) => (
                 <motion.article
                   key={idx}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-sm"
+                  whileHover={{ y: -5 }}
+                  className={`group border rounded-xl overflow-hidden shadow-2xl transition-all duration-500 backdrop-blur-xl ${
+                    theme === 'dark' 
+                      ? 'bg-gray-900/60 border-gray-700/50 hover:bg-gray-900/80' 
+                      : 'bg-white/30 border-white/40 hover:bg-white/50 hover:shadow-3xl'
+                  }`}
                 >
-                  <div className="flex gap-4">
+                  <div className="relative overflow-hidden">
                     <img
                       src={p.img}
                       alt={p.title}
-                      className="w-28 h-20 object-cover rounded-md flex-shrink-0"
+                      className="w-full h-32 object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-lg">{p.title}</h3>
-                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                        {p.desc}
-                      </p>
+                    <div className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-300 ${
+                      theme === 'dark' 
+                        ? 'from-gray-900/80 to-transparent' 
+                        : 'from-black/20 to-transparent'
+                    }`}></div>
+                  </div>
+                  
+                  <div className="p-4">
+                    <h3 className={`font-bold text-lg mb-2 ${
+                      theme === 'dark' ? 'text-white' : 'text-slate-800'
+                    }`}>{p.title}</h3>
+                    
+                    <p className={`text-sm leading-relaxed mb-3 ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-slate-600'
+                    }`}>
+                      {p.desc}
+                    </p>
 
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {p.tech.map((t, i) => (
-                          <span
-                            key={i}
-                            className="text-xs border border-gray-300 dark:border-gray-700 rounded-full px-2 py-1"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {p.tech.map((t, i) => (
+                        <span
+                          key={i}
+                          className={`text-xs font-medium rounded-full px-3 py-1 ${
+                            theme === 'dark'
+                              ? 'bg-gray-700/50 text-gray-300 border border-gray-600'
+                              : 'bg-gray-100 text-gray-700 border border-gray-300'
+                          }`}
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
 
-                      <div className="mt-3 flex items-center gap-3">
-                        <a
-                          href={p.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-orange-400"
-                        >
-                          View
-                        </a>
-                        <a
-                          href="#"
-                          className="text-sm text-gray-500 dark:text-gray-400"
-                        >
-                          Source
-                        </a>
-                      </div>
+                    <div className="flex items-center justify-between">
+                      <a
+                        href={p.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-300 ${
+                          theme === 'dark'
+                            ? 'bg-gray-700 text-white hover:bg-gray-600'
+                            : 'bg-gray-900 text-white hover:bg-gray-800'
+                        }`}
+                      >
+                        View Live
+                      </a>
+                      <a
+                        href="#"
+                        className={`text-sm font-medium transition-colors ${
+                          theme === 'dark' ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                      >
+                        Source Code →
+                      </a>
                     </div>
                   </div>
                 </motion.article>
@@ -366,21 +326,31 @@ export default function App() {
                 initial={{ opacity: 0, y: 6 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5"
+                className={`border rounded-lg p-5 shadow-lg ${
+                  theme === 'dark' 
+                    ? 'bg-gray-900 border-gray-800' 
+                    : 'bg-white border-slate-200'
+                }`}
               >
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="font-semibold text-lg">{exp.role}</h3>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                    <div className={`text-sm ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-slate-600'
+                    }`}>
                       {exp.company}
                     </div>
                   </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                  <div className={`text-sm ${
+                    theme === 'dark' ? 'text-gray-400' : 'text-slate-500'
+                  }`}>
                     {exp.date}
                   </div>
                 </div>
 
-                <ul className="mt-3 list-disc list-inside text-gray-600 dark:text-gray-300 space-y-1 text-sm">
+                <ul className={`mt-3 list-disc list-inside space-y-1 text-sm ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-slate-600'
+                }`}>
                   {exp.bullets.map((b, j) => (
                     <li key={j}>{b}</li>
                   ))}
@@ -391,15 +361,23 @@ export default function App() {
         </section>
 
         {/* Testimonial / Quick reference */}
-        <section className="bg-gradient-to-r from-orange-50 to-white dark:from-gray-800 dark:to-gray-900 py-10">
+        <section className={`py-10 ${
+          theme === 'dark' 
+            ? 'bg-gray-800' 
+            : 'bg-white'
+        }`}>
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h3 className="text-xl font-semibold mb-3">Client Feedback</h3>
-            <p className="italic text-gray-700 dark:text-gray-300">
+            <p className={`italic ${
+              theme === 'dark' ? 'text-gray-300' : 'text-slate-700'
+            }`}>
               "Kartik was fantastic to work with. His expertise in web and app
               development, along with his attention to detail, made the project
               seamless and efficient."
             </p>
-            <div className="mt-3 text-sm text-orange-400 font-medium">
+            <div className={`mt-3 text-sm font-medium ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            }`}>
               – Parth Shah
             </div>
           </div>
@@ -407,22 +385,32 @@ export default function App() {
 
         {/* Contact */}
         <section id="contact" className="max-w-4xl mx-auto px-6 py-12">
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6 text-center">
+          <div className={`border rounded-lg p-6 text-center shadow-lg ${
+            theme === 'dark' 
+              ? 'bg-gray-900 border-gray-800' 
+              : 'bg-white border-slate-200'
+          }`}>
             <h2 className="text-2xl font-semibold mb-2">
               Let's build something together
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <p className={`mb-4 ${
+              theme === 'dark' ? 'text-gray-300' : 'text-slate-600'
+            }`}>
               Available for freelance & full-time roles. Open to remote work.
             </p>
 
             <a
               href="mailto:kartikupadhyay613@gmail.com"
-              className="inline-flex items-center gap-2 bg-orange-400 text-black px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform"
+              className={`inline-flex items-center gap-2 px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform ${
+                theme === 'dark' ? 'bg-white text-black' : 'bg-gray-900 text-white'
+              }`}
             >
               <FaEnvelope /> Email Me
             </a>
 
-            <div className="mt-6 text-sm text-gray-600 dark:text-gray-400">
+            <div className={`mt-6 text-sm ${
+              theme === 'dark' ? 'text-gray-400' : 'text-slate-500'
+            }`}>
               Arera Hills, Bhopal (MP) • +91 7509377499
             </div>
           </div>
@@ -430,7 +418,9 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-12 border-t border-gray-200 dark:border-gray-800 py-6">
+      <footer className={`mt-12 border-t py-6 ${
+        theme === 'dark' ? 'border-gray-800' : 'border-slate-200'
+      }`}>
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm">
             &copy; 2025 Kartik Upadhyay. All rights reserved.
