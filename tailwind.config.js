@@ -6,7 +6,11 @@ export default {
     ],
     darkMode: "class",
     theme: {
-        extend: {},
+        extend: {
+            animation: {
+                'spin-slow': 'spin 4s linear infinite',
+            },
+        },
     },
     plugins: [],
 }

@@ -3,13 +3,16 @@ import React, { useState, useEffect } from "react";
 import profilepic from "./assets/profile.png";
 // import profilepic1 from "./assets/profile1.png";
 import Navbar from "./components/Navbar";
+import { BorderBeam } from "./components/BorderBeam";
 import { motion } from "framer-motion";
 import one from "./assets/one.jpeg";
 import two from "./assets/two.gif";
 import three from "./assets/three.gif";
 import four from "./assets/four.jpeg";
 import Kartik_Resume from "./assets/Kartik_Resume.pdf";
+import MovingBorderButton from "./components/MovingBorderButton";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import SlideInView from "./components/SlideInView";
 
 const PROJECTS = [
   {
@@ -104,11 +107,21 @@ export default function App() {
   }, [theme]);
 
   return (
-    <div className={`min-h-screen transition-all duration-500 ${theme === 'dark' ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
-      <Navbar theme={theme} toggleTheme={toggleTheme} resumeLink={Kartik_Resume} />
+    <div
+      className={`min-h-screen transition-all duration-500 ${
+        theme === "dark"
+          ? "bg-gray-900 text-gray-100"
+          : "bg-gray-50 text-gray-900"
+      }`}
+    >
+      <Navbar
+        theme={theme}
+        toggleTheme={toggleTheme}
+        resumeLink={Kartik_Resume}
+      />
       <main className="pt-32">
         {/* Hero */}
-        <section id="home" className="max-w-6xl mx-auto px-6 py-12">
+        <section id="home" className="max-w-6xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <motion.div
               initial={{ x: -20, opacity: 0 }}
@@ -116,14 +129,14 @@ export default function App() {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-                Hi, I'm <span className={`${
-                  theme === 'dark' ? 'text-white' : 'text-gray-900'
-                }`}>Kartik Upadhyay</span>{" "}
-                — MERN Stack Developer
+                <SlideInView text="Hi, I'm Kartik Upadhyay — MERN Stack Developer" />
               </h1>
-              <p className={`mt-4 max-w-xl text-lg leading-relaxed ${
-                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-              }`}>
+
+              <p
+                className={`mt-4 max-w-xl text-lg leading-relaxed ${
+                  theme === "dark" ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
                 I build scalable web applications and delightful user
                 experiences using React, Node.js, and MongoDB. I have hands-on
                 experience with authentication, payments (Stripe), REST APIs,
@@ -134,23 +147,28 @@ export default function App() {
                 <a
                   href="#projects"
                   className={`px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform ${
-                    theme === 'dark' ? 'bg-white text-black hover:bg-gray-100' : 'bg-gray-900 text-white hover:bg-gray-800'
+                    theme === "dark"
+                      ? "bg-white text-black hover:bg-gray-100"
+                      : "bg-gray-900 text-white hover:bg-gray-800"
                   }`}
                 >
                   View Projects
                 </a>
-                <a
+                <MovingBorderButton
                   href={Kartik_Resume}
                   download="Kartik_Resume.pdf"
-                  className="px-5 py-2 rounded-full border border-gray-300 dark:border-gray-700"
+                  theme={theme}
+                  className="download-resume"
                 >
                   Download Resume
-                </a>
+                </MovingBorderButton>
 
                 <a
                   href="mailto:kartikupadhyay613@gmail.com"
-                  className={`px-5 py-2 rounded-full border border-transparent transition ${
-                    theme === 'dark' ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-700'
+                  className={`px-5 py-2 rounded-full border transition ${
+                    theme === "dark"
+                      ? "border-gray-600 bg-gray-800/50 hover:bg-gray-700 text-gray-300"
+                      : "border-gray-300 bg-white/80 hover:bg-gray-100 text-gray-700"
                   }`}
                 >
                   <FaEnvelope className="inline-block mr-2 -mt-1" /> Email Me
@@ -162,7 +180,7 @@ export default function App() {
                   href="https://github.com/kartik-613/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-orange-400 transition"
+                  className="hover:text-gray-400 transition"
                 >
                   <FaGithub size={22} />
                 </a>
@@ -170,7 +188,7 @@ export default function App() {
                   href="https://www.linkedin.com/in/kartik-upadhyay11/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-orange-400 transition"
+                  className="hover:text-gray-400 transition "
                 >
                   <FaLinkedin size={22} />
                 </a>
@@ -197,9 +215,11 @@ export default function App() {
         {/* Skills */}
         <section id="skills" className="max-w-6xl mx-auto px-6 py-10">
           <h2 className="text-2xl font-semibold mb-4">Core Skills</h2>
-          <p className={`mb-6 max-w-2xl text-lg leading-relaxed ${
-            theme === 'dark' ? 'text-gray-200' : 'text-gray-800'
-          }`}>
+          <p
+            className={`mb-6 max-w-2xl text-lg leading-relaxed ${
+              theme === "dark" ? "text-gray-200" : "text-gray-800"
+            }`}
+          >
             Strong background in front-end and back-end development using modern
             JavaScript tooling and cloud deployment.
           </p>
@@ -210,9 +230,9 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.03 }}
                 className={`border rounded-xl p-4 text-sm font-medium backdrop-blur-md transition-all duration-300 hover:shadow-lg ${
-                  theme === 'dark' 
-                    ? 'bg-gray-800/50 border-gray-700 text-gray-200 hover:bg-gray-700/50' 
-                    : 'bg-white/20 border-white/30 text-slate-800 shadow-sm hover:bg-white/30'
+                  theme === "dark"
+                    ? "bg-gray-800/50 border-gray-700 text-gray-200 hover:bg-gray-700/50"
+                    : "bg-white/20 border-white/30 text-slate-800 shadow-sm hover:bg-white/30"
                 }`}
               >
                 {skill}
@@ -222,9 +242,12 @@ export default function App() {
         </section>
 
         {/* Projects */}
-        <section id="projects" className={`py-12 ${
-          theme === 'dark' ? 'bg-gray-800' : 'bg-white/60 backdrop-blur-sm'
-        }`}>
+        <section
+          id="projects"
+          className={`py-12 ${
+            theme === "dark" ? "bg-gray-800" : "bg-white/60 backdrop-blur-sm"
+          }`}
+        >
           <div className="max-w-6xl mx-auto px-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-semibold">Highlighted Projects</h2>
@@ -242,9 +265,9 @@ export default function App() {
                   viewport={{ once: true }}
                   whileHover={{ y: -5 }}
                   className={`group border rounded-xl overflow-hidden shadow-2xl transition-all duration-500 backdrop-blur-xl ${
-                    theme === 'dark' 
-                      ? 'bg-gray-900/60 border-gray-700/50 hover:bg-gray-900/80' 
-                      : 'bg-white/30 border-white/40 hover:bg-white/50 hover:shadow-3xl'
+                    theme === "dark"
+                      ? "bg-gray-900/60 border-gray-700/50 hover:bg-gray-900/80"
+                      : "bg-white/30 border-white/40 hover:bg-white/50 hover:shadow-3xl"
                   }`}
                 >
                   <div className="relative overflow-hidden">
@@ -253,21 +276,29 @@ export default function App() {
                       alt={p.title}
                       className="w-full h-32 object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-300 ${
-                      theme === 'dark' 
-                        ? 'from-gray-900/80 to-transparent' 
-                        : 'from-black/20 to-transparent'
-                    }`}></div>
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-300 ${
+                        theme === "dark"
+                          ? "from-gray-900/80 to-transparent"
+                          : "from-black/20 to-transparent"
+                      }`}
+                    ></div>
                   </div>
-                  
+
                   <div className="p-4">
-                    <h3 className={`font-bold text-lg mb-2 ${
-                      theme === 'dark' ? 'text-white' : 'text-slate-800'
-                    }`}>{p.title}</h3>
-                    
-                    <p className={`text-sm leading-relaxed mb-3 ${
-                      theme === 'dark' ? 'text-gray-300' : 'text-slate-600'
-                    }`}>
+                    <h3
+                      className={`font-bold text-lg mb-2 ${
+                        theme === "dark" ? "text-white" : "text-slate-800"
+                      }`}
+                    >
+                      {p.title}
+                    </h3>
+
+                    <p
+                      className={`text-sm leading-relaxed mb-3 ${
+                        theme === "dark" ? "text-gray-300" : "text-slate-600"
+                      }`}
+                    >
                       {p.desc}
                     </p>
 
@@ -276,9 +307,9 @@ export default function App() {
                         <span
                           key={i}
                           className={`text-xs font-medium rounded-full px-3 py-1 ${
-                            theme === 'dark'
-                              ? 'bg-gray-700/50 text-gray-300 border border-gray-600'
-                              : 'bg-gray-100 text-gray-700 border border-gray-300'
+                            theme === "dark"
+                              ? "bg-gray-700/50 text-gray-300 border border-gray-600"
+                              : "bg-gray-100 text-gray-700 border border-gray-300"
                           }`}
                         >
                           {t}
@@ -292,9 +323,9 @@ export default function App() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-300 ${
-                          theme === 'dark'
-                            ? 'bg-gray-700 text-white hover:bg-gray-600'
-                            : 'bg-gray-900 text-white hover:bg-gray-800'
+                          theme === "dark"
+                            ? "bg-gray-700 text-white hover:bg-gray-600"
+                            : "bg-gray-900 text-white hover:bg-gray-800"
                         }`}
                       >
                         View Live
@@ -302,7 +333,9 @@ export default function App() {
                       <a
                         href="#"
                         className={`text-sm font-medium transition-colors ${
-                          theme === 'dark' ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-900'
+                          theme === "dark"
+                            ? "text-gray-400 hover:text-gray-200"
+                            : "text-gray-600 hover:text-gray-900"
                         }`}
                       >
                         Source Code →
@@ -327,30 +360,36 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 className={`border rounded-lg p-5 shadow-lg ${
-                  theme === 'dark' 
-                    ? 'bg-gray-900 border-gray-800' 
-                    : 'bg-white border-slate-200'
+                  theme === "dark"
+                    ? "bg-gray-900 border-gray-800"
+                    : "bg-white border-slate-200"
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="font-semibold text-lg">{exp.role}</h3>
-                    <div className={`text-sm ${
-                      theme === 'dark' ? 'text-gray-300' : 'text-slate-600'
-                    }`}>
+                    <div
+                      className={`text-sm ${
+                        theme === "dark" ? "text-gray-300" : "text-slate-600"
+                      }`}
+                    >
                       {exp.company}
                     </div>
                   </div>
-                  <div className={`text-sm ${
-                    theme === 'dark' ? 'text-gray-400' : 'text-slate-500'
-                  }`}>
+                  <div
+                    className={`text-sm ${
+                      theme === "dark" ? "text-gray-400" : "text-slate-500"
+                    }`}
+                  >
                     {exp.date}
                   </div>
                 </div>
 
-                <ul className={`mt-3 list-disc list-inside space-y-1 text-sm ${
-                  theme === 'dark' ? 'text-gray-300' : 'text-slate-600'
-                }`}>
+                <ul
+                  className={`mt-3 list-disc list-inside space-y-1 text-sm ${
+                    theme === "dark" ? "text-gray-300" : "text-slate-600"
+                  }`}
+                >
                   {exp.bullets.map((b, j) => (
                     <li key={j}>{b}</li>
                   ))}
@@ -361,23 +400,25 @@ export default function App() {
         </section>
 
         {/* Testimonial / Quick reference */}
-        <section className={`py-10 ${
-          theme === 'dark' 
-            ? 'bg-gray-800' 
-            : 'bg-white'
-        }`}>
+        <section
+          className={`py-10 ${theme === "dark" ? "bg-gray-800" : "bg-white"}`}
+        >
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h3 className="text-xl font-semibold mb-3">Client Feedback</h3>
-            <p className={`italic ${
-              theme === 'dark' ? 'text-gray-300' : 'text-slate-700'
-            }`}>
+            <p
+              className={`italic ${
+                theme === "dark" ? "text-gray-300" : "text-slate-700"
+              }`}
+            >
               "Kartik was fantastic to work with. His expertise in web and app
               development, along with his attention to detail, made the project
               seamless and efficient."
             </p>
-            <div className={`mt-3 text-sm font-medium ${
-              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-            }`}>
+            <div
+              className={`mt-3 text-sm font-medium ${
+                theme === "dark" ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
               – Parth Shah
             </div>
           </div>
@@ -385,32 +426,40 @@ export default function App() {
 
         {/* Contact */}
         <section id="contact" className="max-w-4xl mx-auto px-6 py-12">
-          <div className={`border rounded-lg p-6 text-center shadow-lg ${
-            theme === 'dark' 
-              ? 'bg-gray-900 border-gray-800' 
-              : 'bg-white border-slate-200'
-          }`}>
+          <div
+            className={`border rounded-lg p-6 text-center shadow-lg ${
+              theme === "dark"
+                ? "bg-gray-900 border-gray-800"
+                : "bg-white border-slate-200"
+            }`}
+          >
             <h2 className="text-2xl font-semibold mb-2">
               Let's build something together
             </h2>
-            <p className={`mb-4 ${
-              theme === 'dark' ? 'text-gray-300' : 'text-slate-600'
-            }`}>
+            <p
+              className={`mb-4 ${
+                theme === "dark" ? "text-gray-300" : "text-slate-600"
+              }`}
+            >
               Available for freelance & full-time roles. Open to remote work.
             </p>
 
             <a
               href="mailto:kartikupadhyay613@gmail.com"
               className={`inline-flex items-center gap-2 px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform ${
-                theme === 'dark' ? 'bg-white text-black' : 'bg-gray-900 text-white'
+                theme === "dark"
+                  ? "bg-white text-black"
+                  : "bg-gray-900 text-white"
               }`}
             >
               <FaEnvelope /> Email Me
             </a>
 
-            <div className={`mt-6 text-sm ${
-              theme === 'dark' ? 'text-gray-400' : 'text-slate-500'
-            }`}>
+            <div
+              className={`mt-6 text-sm ${
+                theme === "dark" ? "text-gray-400" : "text-slate-500"
+              }`}
+            >
               Arera Hills, Bhopal (MP) • +91 7509377499
             </div>
           </div>
@@ -418,9 +467,11 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className={`mt-12 border-t py-6 ${
-        theme === 'dark' ? 'border-gray-800' : 'border-slate-200'
-      }`}>
+      <footer
+        className={`mt-12 border-t py-6 ${
+          theme === "dark" ? "border-gray-800" : "border-slate-200"
+        }`}
+      >
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm">
             &copy; 2025 Kartik Upadhyay. All rights reserved.
@@ -430,7 +481,7 @@ export default function App() {
               href="https://github.com/kartik-613/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-orange-400"
+              className="hover:text-gray-400"
             >
               GitHub
             </a>
@@ -438,7 +489,7 @@ export default function App() {
               href="https://www.linkedin.com/in/kartik-upadhyay11/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-orange-400"
+              className="hover:text-gray-400"
             >
               LinkedIn
             </a>
@@ -446,7 +497,7 @@ export default function App() {
               href="/assets/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-orange-400"
+              className="hover:text-gray-400"
             >
               Resume
             </a>
