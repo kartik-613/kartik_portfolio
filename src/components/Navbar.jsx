@@ -47,7 +47,7 @@ const Navbar = ({ theme, toggleTheme, resumeLink }) => {
 
   return (
     <motion.header
-      className="fixed w-full top-6 left-0 z-50"
+      className="fixed inset-x-0 px-4 top-6 z-50"
     >
       {/* Desktop Navigation */}
       <motion.div

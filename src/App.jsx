@@ -129,7 +129,7 @@ export default function App() {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-                <SlideInView text="Hi, I'm Kartik Upadhyay — MERN Stack Developer" />
+                <SlideInView text="Hi, I'm Kartik Upadhyay — MERNStack Developer" />
               </h1>
 
               <p
