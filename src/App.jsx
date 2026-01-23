@@ -34,7 +34,7 @@ const PROJECTS = [
     tech: ["React Native", "Node.js", "MongoDB"],
     img: three,
     desc: "Cross-platform mobile app connecting doctors & patients with appointment scheduling, push notifications and real-time chat.",
-    link: "#",
+    link: "https://drive.google.com/drive/folders/13c4xSLlpNs_se1TBRDxd1gmpEv6ScFN_?usp=drive_link",
   },
   {
     title: "Small Business Tools & Integrations",
