@@ -27,7 +27,7 @@ const PROJECTS = [
     tech: ["MERN", "REST API", "Socket.io", "Stripe"],
     img: two,
     desc: "Responsive e-commerce app with cart management, real-time order updates, admin restaurant dashboard and optimized DB queries.",
-    link: "#",
+    link: "https://rentok.vercel.app/",
   },
   {
     title: "Docxito Health Service App",
