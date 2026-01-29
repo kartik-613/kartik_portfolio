@@ -119,14 +119,15 @@ export default function App() {
         toggleTheme={toggleTheme}
         resumeLink={Kartik_Resume}
       />
-      <main className="pt-32">
+      <main className="pt-24 md:pt-32">
         {/* Hero */}
-        <section id="home" className="max-w-6xl mx-auto px-4 py-12">
+        <section id="home" className="max-w-6xl mx-auto px-4 py-10 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <motion.div
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
+              className="space-y-6"
             >
               <h1 className="text-3xl md:text-5xl font-bold leading-[1.2] font-serif flex flex-col gap-1 tracking-tight">
                 <SlideInView text="Hi, I'm Kartik Upadhyay" />
@@ -134,7 +135,7 @@ export default function App() {
               </h1>
 
               <p
-                className={`mt-6 max-w-xl text-base md:text-lg leading-[1.6] font-serif ${theme === "dark" ? "text-gray-300" : "text-gray-700"
+                className={`max-w-xl text-base md:text-lg leading-[1.6] font-serif ${theme === "dark" ? "text-gray-300" : "text-gray-700"
                   }`}
               >
                 I build scalable web applications and delightful user
@@ -143,7 +144,7 @@ export default function App() {
                 and production deployments.
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3">
                 <a
                   href="#projects"
                   className={`inline-flex items-center justify-center px-6 py-2.5 rounded-full font-serif font-medium hover:scale-105 transition-transform ${theme === "dark"
@@ -170,7 +171,7 @@ export default function App() {
                 </LiquetGlassButton>
               </div>
 
-              <div className="mt-6 flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <a
                   href="https://github.com/kartik-613/"
                   target="_blank"
@@ -208,7 +209,7 @@ export default function App() {
         </section>
 
         {/* Skills */}
-        <section id="skills" className="max-w-6xl mx-auto px-6 py-24">
+        <section id="skills" className="max-w-6xl mx-auto px-6 py-16 md:py-24">
           <h2 className="text-3xl font-bold mb-6 tracking-tight">Core Skills</h2>
           <p
             className={`mb-10 max-w-2xl text-lg leading-relaxed ${theme === "dark" ? "text-gray-300" : "text-gray-600"
@@ -237,7 +238,7 @@ export default function App() {
         {/* Projects */}
         <section
           id="projects"
-          className={`py-24 ${theme === "dark" ? "bg-gray-800/30" : "bg-gray-50"
+          className={`py-16 md:py-24 ${theme === "dark" ? "bg-gray-800/30" : "bg-gray-50"
             }`}
         >
           <div className="max-w-6xl mx-auto px-6">
@@ -334,7 +335,7 @@ export default function App() {
         </section>
 
         {/* Experience */}
-        <section id="experience" className="max-w-6xl mx-auto px-6 py-24">
+        <section id="experience" className="max-w-6xl mx-auto px-6 py-16 md:py-24">
           <h2 className="text-3xl font-bold mb-10 tracking-tight">Professional Experience</h2>
 
           <div className="space-y-8">
@@ -344,7 +345,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className={`border rounded-2xl p-8 shadow-xl transition-all hover:shadow-2xl ${theme === "dark"
+                className={`border rounded-2xl p-6 md:p-8 shadow-xl transition-all hover:shadow-2xl ${theme === "dark"
                   ? "bg-gray-900 border-gray-800"
                   : "bg-white border-slate-100"
                   }`}
@@ -382,7 +383,7 @@ export default function App() {
 
         {/* Testimonial / Quick reference */}
         <section
-          className={`py-24 ${theme === "dark" ? "bg-gray-800/20" : "bg-white"}`}
+          className={`py-16 md:py-24 ${theme === "dark" ? "bg-gray-800/20" : "bg-white"}`}
         >
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h3 className="text-2xl font-bold mb-6 tracking-tight">Client Feedback</h3>
@@ -404,9 +405,9 @@ export default function App() {
         </section>
 
         {/* Contact */}
-        <section id="contact" className="max-w-4xl mx-auto px-6 py-24">
+        <section id="contact" className="max-w-4xl mx-auto px-6 py-16 md:py-24">
           <div
-            className={`border rounded-3xl p-12 text-center shadow-2xl ${theme === "dark"
+            className={`border rounded-3xl p-8 md:p-12 text-center shadow-2xl ${theme === "dark"
               ? "bg-gray-900 border-gray-800"
               : "bg-white border-slate-100"
               }`}
@@ -441,7 +442,7 @@ export default function App() {
 
       {/* Footer */}
       <footer
-        className={`mt-12 border-t py-6 ${theme === "dark" ? "border-gray-800" : "border-slate-200"
+        className={`mt-8 md:mt-12 border-t py-6 ${theme === "dark" ? "border-gray-800" : "border-slate-200"
           }`}
       >
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
