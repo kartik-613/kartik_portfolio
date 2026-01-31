@@ -15,10 +15,99 @@ import LiquetGlassButton from "./components/LiquetGlassButton";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import SlideInView from "./components/SlideInView";
 
+// Optimization: Lazy load heavy components (bundle-dynamic-imports)
+const SmokeyCursor = React.lazy(() => import("./components/SmokeyCursor"));
+const Iphone = React.lazy(() => import("./components/Iphone").then(m => ({ default: m.Iphone })));
+
+// Optimization: Memoize repeated components (rerender-memo)
+const ProjectCard = React.memo(function ProjectCard({ p, theme, className = "" }) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -8, scale: 1.01 }}
+      className={`flex flex-col group border rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 backdrop-blur-3xl cursor-pointer ${theme === "dark"
+        ? "bg-gray-900/40 border-gray-700/50 hover:bg-gray-900/60 hover:border-blue-500/50"
+        : "bg-white/40 border-white/60 hover:bg-white/60 hover:shadow-3xl hover:border-blue-200"
+        } ${className}`}
+    >
+      <div className="relative overflow-hidden shrink-0">
+        <img
+          src={p.img}
+          alt={p.title}
+          className="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-110"
+          loading="lazy"
+        />
+        <div
+          className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-300 ${theme === "dark"
+            ? "from-gray-900/80 to-transparent"
+            : "from-black/20 to-transparent"
+            }`}
+        ></div>
+      </div>
+
+      <div className="flex flex-col p-4">
+        <div>
+          <h3
+            className={`font-bold text-xl mb-1 ${theme === "dark" ? "text-white" : "text-slate-900"
+              }`}
+          >
+            {p.title}
+          </h3>
+
+          <p
+            className={`text-sm leading-relaxed mb-2 ${theme === "dark" ? "text-gray-300" : "text-slate-600"
+              }`}
+          >
+            {p.desc}
+          </p>
+
+          <div className="flex flex-wrap gap-2 mb-3">
+            {p.tech.map((t, i) => (
+              <span
+                key={i}
+                className={`text-[10px] font-bold uppercase tracking-wider rounded-full px-2.5 py-0.5 ${theme === "dark"
+                  ? "bg-gray-800 text-gray-300 border border-gray-700"
+                  : "bg-white text-gray-600 border border-gray-200 shadow-sm"
+                  }`}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between pt-2 border-t border-white/5 dark:border-gray-800 mt-1">
+          <LiquetGlassButton
+            href={p.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            theme={theme}
+            className="!px-4 !py-1"
+          >
+            Visit Live
+          </LiquetGlassButton>
+          <a
+            href="#"
+            className={`flex items-center gap-1 text-[11px] font-bold uppercase tracking-widest transition-all ${theme === "dark"
+              ? "text-gray-400 hover:text-white"
+              : "text-gray-500 hover:text-gray-900"
+              }`}
+          >
+            <FaGithub size={16} />
+            Code
+          </a>
+        </div>
+      </div>
+    </motion.article>
+  );
+});
+
 const PROJECTS = [
   {
     title: "E-Learning & Certification System",
-    tech: ["React", "Node.js", "Express", "MongoDB", "Stripe", "Google OAuth"],
+    tech: ["React", "Node.js", "Express", "MongoDB", "Stripe"],
     img: one,
     desc: "Full-stack platform for course management, enrollment, progress tracking, automated certificate generation, and face-detection attendance.",
     link: "https://www.erp.miracleitindia.com/", // replace with deployed link or repo
@@ -47,18 +136,15 @@ const PROJECTS = [
 ];
 
 const SKILLS = [
-  "React.js",
-  "Node.js",
-  "Express.js",
-  "MongoDB",
-  "JavaScript (ES6+)",
-  "REST APIs",
-  "JWT & OAuth",
-  "Stripe / Payment Integration",
-  "Responsive UI",
-  "Git & GitHub",
-  "Docker",
-  "AWS / Deployment",
+  { name: "React.js", level: "Expert", icon: "⚛️", className: "col-span-1 md:col-span-2 bg-blue-500/10 border-blue-500/20" },
+  { name: "Node.js", level: "Expert", icon: "🟢", className: "col-span-1 bg-green-500/10 border-green-500/20" },
+  { name: "MongoDB", level: "Advanced", icon: "🍃", className: "col-span-1 bg-emerald-500/10 border-emerald-500/20" },
+  { name: "Express.js", level: "Expert", icon: "🚂", className: "col-span-1 bg-gray-500/10 border-gray-500/20" },
+  { name: "JavaScript", level: "Expert", icon: "JS", className: "col-span-1 md:col-span-2 bg-yellow-500/10 border-yellow-500/20" },
+  { name: "REST APIs", level: "Advanced", icon: "🌐", className: "col-span-1 bg-purple-500/10 border-purple-500/20" },
+  { name: "Docker", level: "Beginner", icon: "🐳", className: "col-span-1 bg-cyan-500/10 border-cyan-500/20" },
+  { name: "AWS", level: "Intermediate", icon: "☁️", className: "col-span-1 bg-orange-500/10 border-orange-500/20" },
+  { name: "Tailwind CSS", level: "Expert", icon: "🌊", className: "col-span-1 md:col-span-2 bg-sky-400/10 border-sky-400/20" },
 ];
 
 const EXPERIENCE = [
@@ -91,11 +177,10 @@ export default function App() {
     return localStorage.getItem("theme") || "dark";
   });
 
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    console.log("Switching theme from", theme, "to", newTheme);
-    setTheme(newTheme);
-  };
+  // Optimization: Use functional setState for stable closures (rerender-functional-setstate)
+  const toggleTheme = React.useCallback(() => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -114,6 +199,9 @@ export default function App() {
         : "bg-gray-50 text-gray-900"
         }`}
     >
+      <React.Suspense fallback={null}>
+        <SmokeyCursor />
+      </React.Suspense>
       <Navbar
         theme={theme}
         toggleTheme={toggleTheme}
@@ -127,7 +215,7 @@ export default function App() {
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="space-y-6"
+              className="space-y-8 text-center lg:text-left flex flex-col items-center lg:items-start"
             >
               <h1 className="text-3xl md:text-5xl font-bold leading-[1.2] font-serif flex flex-col gap-1 tracking-tight">
                 <SlideInView text="Hi, I'm Kartik Upadhyay" />
@@ -144,12 +232,12 @@ export default function App() {
                 and production deployments.
               </p>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4 w-full justify-center lg:justify-start items-center">
                 <a
                   href="#projects"
-                  className={`inline-flex items-center justify-center px-6 py-2.5 rounded-full font-serif font-medium hover:scale-105 transition-transform ${theme === "dark"
+                  className={`w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-full font-serif font-semibold hover:scale-105 transition-transform text-center shadow-lg ${theme === "dark"
                     ? "bg-white text-black hover:bg-gray-100"
-                    : "bg-gray-900 text-white hover:bg-gray-800"
+                    : "bg-gray-900 text-white hover:bg-gray-800 shadow-gray-900/10"
                     }`}
                 >
                   View Projects
@@ -158,7 +246,7 @@ export default function App() {
                   href={Kartik_Resume}
                   download="Kartik_Resume.pdf"
                   theme={theme}
-                  className="download-resume font-serif"
+                  className="w-full sm:w-auto font-serif"
                 >
                   Download Resume
                 </MovingBorderButton>
@@ -166,42 +254,48 @@ export default function App() {
                 <LiquetGlassButton
                   href="mailto:kartikupadhyay613@gmail.com"
                   theme={theme}
+                  className="w-full sm:w-auto scale-105"
                 >
                   <FaEnvelope /> Email Me
                 </LiquetGlassButton>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-8 justify-center lg:justify-start w-full transition-all">
                 <a
                   href="https://github.com/kartik-613/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-gray-400 transition"
+                  aria-label="GitHub Profile"
+                  className={`hover:text-blue-500 transition-all duration-300 transform hover:scale-110 cursor-pointer ${theme === "dark" ? "text-gray-400" : "text-gray-600"
+                    }`}
                 >
-                  <FaGithub size={22} />
+                  <FaGithub size={26} />
                 </a>
                 <a
                   href="https://www.linkedin.com/in/kartik-upadhyay11/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-gray-400 transition "
+                  aria-label="LinkedIn Profile"
+                  className={`hover:text-blue-600 transition-all duration-300 transform hover:scale-110 cursor-pointer ${theme === "dark" ? "text-gray-400" : "text-gray-600"
+                    }`}
                 >
-                  <FaLinkedin size={22} />
+                  <FaLinkedin size={26} />
                 </a>
               </div>
             </motion.div>
 
             <motion.div
               initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 2 }}
-              transition={{ duration: 0.6 }}
-              className="flex justify-center lg:justify-end"
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="flex justify-center lg:justify-end relative"
             >
-              <div className="w-64 h-72 rounded-xl  opacity-90 overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
+              <div className="relative w-full max-w-[300px] h-[380px] md:w-80 md:h-[420px] rounded-3xl opacity-100 overflow-hidden shadow-2xl border border-white/10 dark:border-gray-800 transition-all duration-500">
                 <img
                   src={profilepic}
                   alt="Kartik Upadhyay"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-all duration-700"
+                  loading="eager"
                 />
               </div>
             </motion.div>
@@ -219,17 +313,29 @@ export default function App() {
             JavaScript tooling and cloud deployment.
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[120px] md:auto-rows-[140px]">
             {SKILLS.map((skill, i) => (
               <motion.div
                 key={i}
-                whileHover={{ scale: 1.03, y: -2 }}
-                className={`border rounded-2xl p-5 text-base font-medium backdrop-blur-md transition-all duration-300 hover:shadow-xl ${theme === "dark"
-                  ? "bg-gray-800/40 border-gray-700/50 text-gray-200 hover:bg-gray-700/40"
-                  : "bg-white/40 border-gray-200 text-slate-800 shadow-sm hover:bg-white/60"
+                whileHover={{ scale: 1.02, y: -4 }}
+                className={`flex flex-col justify-between p-5 rounded-3xl border backdrop-blur-md transition-all duration-300 hover:shadow-2xl cursor-pointer overflow-hidden ${skill.className} ${theme === "dark"
+                  ? "hover:brightness-125"
+                  : "hover:brightness-95 shadow-sm"
                   }`}
               >
-                {skill}
+                <div className="flex justify-between items-start">
+                  <span className="text-2xl">{skill.icon}</span>
+                  <span className={`text-[10px] uppercase tracking-widest font-bold opacity-60 ${theme === "dark" ? "text-white" : "text-black"
+                    }`}>
+                    {skill.level}
+                  </span>
+                </div>
+                <div>
+                  <h3 className={`text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-gray-900"
+                    }`}>
+                    {skill.name}
+                  </h3>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -238,98 +344,48 @@ export default function App() {
         {/* Projects */}
         <section
           id="projects"
-          className={`py-16 md:py-24 ${theme === "dark" ? "bg-gray-800/30" : "bg-gray-50"
+          className={`py-16 md:py-24 overflow-hidden transition-all duration-500 ${theme === "dark" ? "bg-gray-800/30" : "bg-gray-50"
             }`}
         >
           <div className="max-w-6xl mx-auto px-6">
-            <div className="flex items-center justify-between mb-12">
-              <h2 className="text-3xl font-bold tracking-tight">Highlighted Projects</h2>
-              <a href="#projects" className="text-sm text-gray-400">
-                See all projects
+            <div className="flex flex-col md:flex-row items-baseline justify-between mb-20 gap-4">
+              <div className="space-y-4">
+                <h2 className="text-3xl font-bold tracking-tight">
+                  Highlighted Projects
+                </h2>
+                <div className="h-1 w-16 bg-blue-500 rounded-full" />
+              </div>
+              <a href="#projects" className="group text-sm font-bold tracking-widest uppercase opacity-60 hover:opacity-100 transition-all flex items-center gap-2">
+                Explore Portfolio <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
               </a>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {PROJECTS.map((p, idx) => (
-                <motion.article
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -5 }}
-                  className={`group border rounded-xl overflow-hidden shadow-2xl transition-all duration-500 backdrop-blur-xl ${theme === "dark"
-                    ? "bg-gray-900/60 border-gray-700/50 hover:bg-gray-900/80"
-                    : "bg-white/30 border-white/40 hover:bg-white/50 hover:shadow-3xl"
-                    }`}
-                >
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={p.img}
-                      alt={p.title}
-                      className="w-full h-32 object-cover transition-transform duration-500 group-hover:scale-110"
+            {/* Projects Grid: Layout 2 columns with Sync'd Levels */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+              {/* Card 1 */}
+              <ProjectCard p={PROJECTS[0]} theme={theme} className="h-full" />
+
+              {/* Focus iPhone: Spans Row 1 and 2 */}
+              <div className="lg:row-span-2 flex flex-col items-center relative h-full">
+                <div className="absolute inset-0 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+                <div className="relative group perspective-1000 w-full h-full flex justify-center">
+                  <React.Suspense fallback={
+                    <div className="h-full w-full min-h-[600px] bg-gray-800/50 rounded-[2.5rem] animate-pulse border-4 border-gray-700" />
+                  }>
+                    <Iphone
+                      className="origin-center shadow-2xl scale-100"
+                      videoSrc="https://videos.pexels.com/video-files/8946986/8946986-uhd_1440_2732_25fps.mp4"
                     />
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-300 ${theme === "dark"
-                        ? "from-gray-900/80 to-transparent"
-                        : "from-black/20 to-transparent"
-                        }`}
-                    ></div>
-                  </div>
+                  </React.Suspense>
+                </div>
+              </div>
 
-                  <div className="p-6">
-                    <h3
-                      className={`font-bold text-xl mb-3 ${theme === "dark" ? "text-white" : "text-slate-900"
-                        }`}
-                    >
-                      {p.title}
-                    </h3>
+              {/* Card 2 */}
+              <ProjectCard p={PROJECTS[1]} theme={theme} className="h-full" />
 
-                    <p
-                      className={`text-base leading-relaxed mb-4 ${theme === "dark" ? "text-gray-300" : "text-slate-600"
-                        }`}
-                    >
-                      {p.desc}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {p.tech.map((t, i) => (
-                        <span
-                          key={i}
-                          className={`text-xs font-semibold rounded-full px-3 py-1 ${theme === "dark"
-                            ? "bg-gray-800 text-gray-300 border border-gray-700"
-                            : "bg-white text-gray-600 border border-gray-200 shadow-sm"
-                            }`}
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between pt-2">
-                      <a
-                        href={p.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-300 ${theme === "dark"
-                          ? "bg-gray-700 text-white hover:bg-gray-600"
-                          : "bg-gray-900 text-white hover:bg-gray-800"
-                          }`}
-                      >
-                        View Live
-                      </a>
-                      <a
-                        href="#"
-                        className={`text-sm font-semibold transition-colors ${theme === "dark"
-                          ? "text-gray-400 hover:text-white"
-                          : "text-gray-500 hover:text-gray-900"
-                          }`}
-                      >
-                        Source Code →
-                      </a>
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
+              {/* Extra Row: Card 3 & 4 */}
+              <ProjectCard p={PROJECTS[2]} theme={theme} className="h-full" />
+              <ProjectCard p={PROJECTS[3]} theme={theme} className="h-full" />
             </div>
           </div>
         </section>
@@ -338,44 +394,46 @@ export default function App() {
         <section id="experience" className="max-w-6xl mx-auto px-6 py-16 md:py-24">
           <h2 className="text-3xl font-bold mb-10 tracking-tight">Professional Experience</h2>
 
-          <div className="space-y-8">
+          <div className="relative border-l-2 border-dashed border-gray-200 dark:border-gray-800 ml-4 md:ml-8 space-y-12">
             {EXPERIENCE.map((exp, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className={`border rounded-2xl p-6 md:p-8 shadow-xl transition-all hover:shadow-2xl ${theme === "dark"
-                  ? "bg-gray-900 border-gray-800"
-                  : "bg-white border-slate-100"
-                  }`}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ x: 8 }}
+                className="relative pl-8 group"
               >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-semibold text-xl">{exp.role}</h3>
-                    <div
-                      className={`text-sm ${theme === "dark" ? "text-gray-300" : "text-slate-600"
-                        }`}
-                    >
-                      {exp.company}
+                {/* Timeline Dot */}
+                <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-gray-900 group-hover:scale-150 transition-transform" />
+
+                <div className={`border rounded-3xl p-6 md:p-8 shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer backdrop-blur-3xl ${theme === "dark"
+                  ? "bg-gray-900/40 border-gray-800 hover:bg-gray-900/60"
+                  : "bg-white/40 border-slate-100 hover:bg-white/60"
+                  }`}
+                >
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                    <div>
+                      <h3 className="font-bold text-2xl tracking-tight">{exp.role}</h3>
+                      <div className={`text-base font-medium ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`}>
+                        {exp.company}
+                      </div>
+                    </div>
+                    <div className={`text-sm font-mono opacity-50 ${theme === "dark" ? "text-gray-400" : "text-slate-500"}`}>
+                      {exp.date}
                     </div>
                   </div>
-                  <div
-                    className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-slate-500"
-                      }`}
-                  >
-                    {exp.date}
-                  </div>
-                </div>
 
-                <ul
-                  className={`mt-3 list-disc list-inside space-y-1 text-[15px] ${theme === "dark" ? "text-gray-300" : "text-slate-600"
-                    }`}
-                >
-                  {exp.bullets.map((b, j) => (
-                    <li key={j}>{b}</li>
-                  ))}
-                </ul>
+                  <ul className={`mt-6 space-y-3 text-[15px] leading-relaxed ${theme === "dark" ? "text-gray-300" : "text-slate-600"}`}>
+                    {exp.bullets.map((b, j) => (
+                      <li key={j} className="flex items-start gap-3">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -405,33 +463,38 @@ export default function App() {
         </section>
 
         {/* Contact */}
-        <section id="contact" className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        <section id="contact" className="max-w-4xl mx-auto px-6 py-16 md:py-32">
           <div
-            className={`border rounded-3xl p-8 md:p-12 text-center shadow-2xl ${theme === "dark"
-              ? "bg-gray-900 border-gray-800"
-              : "bg-white border-slate-100"
+            className={`relative border rounded-[2.5rem] p-10 md:p-20 text-center shadow-3xl overflow-hidden backdrop-blur-3xl ${theme === "dark"
+              ? "bg-gray-900/40 border-gray-800"
+              : "bg-white/40 border-slate-100"
               }`}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-              Let's build something together
+            {/* Background Accent */}
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
+
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight relative z-10">
+              Let's build something <span className="text-blue-500">extraordinary</span>
             </h2>
             <p
-              className={`mb-8 text-lg ${theme === "dark" ? "text-gray-300" : "text-slate-600"
+              className={`mb-10 text-xl md:text-2xl font-medium relative z-10 ${theme === "dark" ? "text-gray-300" : "text-slate-600"
                 }`}
             >
-              Available for freelance & full-time roles. Open to remote work.
+              Available for freelance & full-time roles.
             </p>
 
-            <LiquetGlassButton
-              href="mailto:kartikupadhyay613@gmail.com"
-              theme={theme}
-              className="mt-4"
-            >
-              <FaEnvelope /> Email Me
-            </LiquetGlassButton>
+            <div className="flex justify-center relative z-10">
+              <LiquetGlassButton
+                href="mailto:kartikupadhyay613@gmail.com"
+                theme={theme}
+                className="scale-110"
+              >
+                <FaEnvelope size={20} /> Say Hello
+              </LiquetGlassButton>
+            </div>
 
             <div
-              className={`mt-6 text-base ${theme === "dark" ? "text-gray-400" : "text-slate-500"
+              className={`mt-12 pt-8 border-t text-sm tracking-widest uppercase font-bold opacity-40 ${theme === "dark" ? "text-gray-400" : "text-slate-500"
                 }`}
             >
               Arera Hills, Bhopal (MP) • +91 7509377499

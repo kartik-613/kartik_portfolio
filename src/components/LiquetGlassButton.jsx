@@ -22,6 +22,7 @@ const LiquetGlassButton = ({
             initial="initial"
             whileTap="tap"
             className={`relative group inline-block ${className}`}
+            style={{ width: className.includes("w-full") ? "100%" : "auto" }}
         >
             {/* Liquid outer glow */}
             <motion.div
@@ -45,6 +46,7 @@ const LiquetGlassButton = ({
           transition-all duration-500
           overflow-hidden
           ${themeClasses}
+          ${className.includes("w-full") ? "w-full" : ""}
         `}
             >
                 {/* Liquid Blobs */}

@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { HiMenu, HiX, HiSun, HiMoon } from 'react-icons/hi';
 
-const Navbar = ({ theme, toggleTheme, resumeLink }) => {
+const navItems = [
+  { name: "Home", link: "#home" },
+  { name: "Skills", link: "#skills" },
+  { name: "Projects", link: "#projects" },
+  { name: "Experience", link: "#experience" },
+  { name: "Contact", link: "#contact" }
+];
+
+const Navbar = ({ theme, toggleTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -36,14 +44,6 @@ const Navbar = ({ theme, toggleTheme, resumeLink }) => {
       }
     }
   });
-
-  const navItems = [
-    { name: "Home", link: "#home" },
-    { name: "Skills", link: "#skills" },
-    { name: "Projects", link: "#projects" },
-    { name: "Experience", link: "#experience" },
-    { name: "Contact", link: "#contact" }
-  ];
 
   return (
     <motion.header
@@ -160,7 +160,7 @@ const Navbar = ({ theme, toggleTheme, resumeLink }) => {
             </motion.button>
 
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpen((prev) => !prev)}
               className={`p-2 rounded-lg transition ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
                 }`}
             >

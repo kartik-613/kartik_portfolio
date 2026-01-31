@@ -63,21 +63,21 @@ const MovingBorder = ({ children, duration = 3000, rx, ry }) => {
   );
 };
 
-const MovingBorderButton = ({ 
-  children, 
-  onClick, 
+const MovingBorderButton = ({
+  children,
+  onClick,
   href,
   className = "",
   theme = "dark",
   ...props
 }) => {
   const Component = href ? "a" : "button";
-  
+
   return (
     <Component
       href={href}
       onClick={onClick}
-      className={`relative overflow-hidden bg-transparent p-[1px] text-sm font-medium rounded-full ${className}`}
+      className={`relative overflow-hidden bg-transparent p-[1px] text-sm font-medium rounded-full ${className} ${className.includes('w-full') ? 'block w-full' : 'inline-block'}`}
       style={{ borderRadius: "1.75rem" }}
       {...props}
     >
@@ -86,20 +86,18 @@ const MovingBorderButton = ({
         style={{ borderRadius: "calc(1.75rem * 0.96)" }}
       >
         <MovingBorder duration={3000} rx="30%" ry="30%">
-          <div className={`h-20 w-20 opacity-80 ${
-            theme === 'dark' 
-              ? 'bg-[radial-gradient(#ffffff_40%,transparent_60%)]'
-              : 'bg-[radial-gradient(#1e3a8a_40%,transparent_60%)]'
-          }`} />
+          <div className={`h-20 w-20 opacity-80 ${theme === 'dark'
+            ? 'bg-[radial-gradient(#ffffff_40%,transparent_60%)]'
+            : 'bg-[radial-gradient(#1e3a8a_40%,transparent_60%)]'
+            }`} />
         </MovingBorder>
       </div>
 
       <div
-        className={`relative flex h-full w-full items-center justify-center px-5 py-2 antialiased backdrop-blur-xl transition-all ${
-          theme === 'dark'
-            ? 'bg-gray-900/80 text-white border border-gray-700'
-            : 'bg-white/80 text-gray-900 border border-gray-300'
-        }`}
+        className={`relative flex h-full w-full items-center justify-center px-8 py-3 antialiased backdrop-blur-xl transition-all ${theme === 'dark'
+          ? 'bg-gray-900/80 text-white border border-gray-700'
+          : 'bg-white/80 text-gray-900 border border-gray-300'
+          }`}
         style={{ borderRadius: "calc(1.75rem * 0.96)" }}
       >
         {children}
