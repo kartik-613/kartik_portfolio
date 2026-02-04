@@ -18,6 +18,7 @@ const Navbar = ({ theme, toggleTheme }) => {
   const [activeSection, setActiveSection] = useState('Home');
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
+  const isManuallyStopped = useRef(false);
   const { scrollY } = useScroll();
 
   useEffect(() => {
@@ -28,16 +29,15 @@ const Navbar = ({ theme, toggleTheme }) => {
     audio.preload = "auto";
 
     const attemptPlay = () => {
-      if (audioRef.current && !isPlaying) {
+      // Don't autoplay if the user has manually stopped it
+      if (audioRef.current && !isPlaying && !isManuallyStopped.current) {
         audio.play()
           .then(() => {
             setIsPlaying(true);
             removeTriggers();
-            console.log("Audio started successfully via interaction.");
           })
           .catch((err) => {
-            // If failed, we keep the listeners to try again on the next interaction
-            console.log("Audio play attempt blocked by browser. waiting for next gesture...", err);
+            console.log("Audio play attempt blocked by browser.", err);
           });
       }
     };
@@ -47,30 +47,37 @@ const Navbar = ({ theme, toggleTheme }) => {
       events.forEach(event => window.removeEventListener(event, attemptPlay));
     };
 
-    // 1. Try to play immediately (works if user has interacted with the domain before)
-    audio.play()
-      .then(() => {
-        setIsPlaying(true);
-      })
-      .catch(() => {
-        // 2. If blocked, setup listeners for ANY movement or interaction
-        const interactionEvents = ['click', 'scroll', 'touchstart', 'mousedown', 'keydown', 'wheel', 'touchmove', 'pointerdown'];
-        interactionEvents.forEach(event => {
-          window.addEventListener(event, attemptPlay, { passive: true });
+    // Only try to autoplay once on mount
+    if (!isManuallyStopped.current) {
+      audio.play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(() => {
+          const interactionEvents = ['click', 'scroll', 'touchstart', 'mousedown', 'keydown', 'wheel', 'touchmove', 'pointerdown'];
+          interactionEvents.forEach(event => {
+            window.addEventListener(event, attemptPlay, { passive: true });
+          });
         });
-      });
+    }
 
     return () => removeTriggers();
-  }, [isPlaying]);
+  }, []); // Only run on mount
 
   const toggleAudio = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        isManuallyStopped.current = true; // Mark as manually stopped
+        setIsPlaying(false);
       } else {
-        audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.log("Manual play blocked", e));
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+            isManuallyStopped.current = false;
+          })
+          .catch(e => console.log("Manual play blocked", e));
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
