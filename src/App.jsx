@@ -1,7 +1,5 @@
-// App.jsx
 import React, { useState, useEffect } from "react";
 import profilepic from "./assets/profile.png";
-// import profilepic1 from "./assets/profile1.png";
 import Navbar from "./components/Navbar";
 import { BorderBeam } from "./components/BorderBeam";
 import { motion } from "framer-motion";
@@ -15,6 +13,7 @@ import LiquetGlassButton from "./components/LiquetGlassButton";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import SlideInView from "./components/SlideInView";
 import docxitoAppVideo from "./assets/docxitoAppVideo.mp4";
+import NeuralBackground from "./components/ui/flow-field-background";
 
 // Optimization: Lazy load heavy components (bundle-dynamic-imports)
 const SmokeyCursor = React.lazy(() => import("./components/SmokeyCursor"));
@@ -208,137 +207,159 @@ export default function App() {
         toggleTheme={toggleTheme}
         resumeLink={Kartik_Resume}
       />
-      <main className="pt-24 md:pt-32">
+      <main className="">
         {/* Hero */}
-        <section id="home" className="max-w-6xl mx-auto px-4 py-10 md:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <motion.div
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-8 text-center lg:text-left flex flex-col items-center lg:items-start"
-            >
-              <h1 className="text-3xl md:text-5xl font-bold leading-[1.2] font-serif flex flex-col gap-1 tracking-tight">
-                <SlideInView text="Hi, I'm Kartik Upadhyay" />
-                <SlideInView text="MERN Stack Developer" delayOffset={0.6} />
-              </h1>
-
-              <p
-                className={`max-w-xl text-base md:text-lg leading-[1.6] font-serif ${theme === "dark" ? "text-gray-300" : "text-gray-700"
-                  }`}
+        <section id="home" className="relative overflow-hidden w-full">
+          <div className="absolute inset-0 pointer-events-none opacity-30">
+            <NeuralBackground
+              color={theme === "dark" ? "#6366f1" : "#3b82f6"}
+              backgroundColor={theme === "dark" ? "17, 24, 39" : "249, 250, 251"}
+              trailOpacity={0.1}
+              particleCount={400}
+              speed={0.5}
+            />
+          </div>
+          <div className="max-w-6xl mx-auto px-4 pt-32 md:pt-48 pb-10 md:pb-20 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                className="space-y-8 text-center lg:text-left flex flex-col items-center lg:items-start"
               >
-                I build scalable web applications and delightful user
-                experiences using React, Node.js, and MongoDB. I have hands-on
-                experience with authentication, payments (Stripe), REST APIs,
-                and production deployments.
-              </p>
+                <h1 className="text-3xl md:text-5xl font-bold leading-[1.2] font-serif flex flex-col gap-1 tracking-tight">
+                  <SlideInView text="Hi, I'm Kartik Upadhyay" />
+                  <SlideInView text="MERN Stack Developer" delayOffset={0.6} />
+                </h1>
 
-              <div className="flex flex-col sm:flex-row flex-wrap gap-4 w-full justify-center lg:justify-start items-center">
-                <a
-                  href="#projects"
-                  className={`w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-full font-serif font-semibold hover:scale-105 transition-transform text-center shadow-lg ${theme === "dark"
-                    ? "bg-white text-black hover:bg-gray-100"
-                    : "bg-gray-900 text-white hover:bg-gray-800 shadow-gray-900/10"
+                <p
+                  className={`max-w-xl text-base md:text-lg leading-[1.6] font-serif ${theme === "dark" ? "text-gray-300" : "text-gray-700"
                     }`}
                 >
-                  View Projects
-                </a>
-                <MovingBorderButton
-                  href={Kartik_Resume}
-                  download="Kartik_Resume.pdf"
-                  theme={theme}
-                  className="w-full sm:w-auto font-serif"
-                >
-                  Download Resume
-                </MovingBorderButton>
+                  I build scalable web applications and delightful user
+                  experiences using React, Node.js, and MongoDB. I have hands-on
+                  experience with authentication, payments (Stripe), REST APIs,
+                  and production deployments.
+                </p>
 
-                <LiquetGlassButton
-                  href="mailto:kartikupadhyay613@gmail.com"
-                  theme={theme}
-                  className="w-full sm:w-auto scale-105"
-                >
-                  <FaEnvelope /> Email Me
-                </LiquetGlassButton>
-              </div>
+                <div className="flex flex-col sm:flex-row flex-wrap gap-4 w-full justify-center lg:justify-start items-center">
+                  <a
+                    href="#projects"
+                    className={`w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-full font-serif font-semibold hover:scale-105 transition-transform text-center shadow-lg ${theme === "dark"
+                      ? "bg-white text-black hover:bg-gray-100"
+                      : "bg-gray-900 text-white hover:bg-gray-800 shadow-gray-900/10"
+                      }`}
+                  >
+                    View Projects
+                  </a>
+                  <MovingBorderButton
+                    href={Kartik_Resume}
+                    download="Kartik_Resume.pdf"
+                    theme={theme}
+                    className="w-full sm:w-auto font-serif"
+                  >
+                    Download Resume
+                  </MovingBorderButton>
 
-              <div className="flex items-center gap-8 justify-center lg:justify-start w-full transition-all">
-                <a
-                  href="https://github.com/kartik-613/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub Profile"
-                  className={`hover:text-blue-500 transition-all duration-300 transform hover:scale-110 cursor-pointer ${theme === "dark" ? "text-gray-400" : "text-gray-600"
-                    }`}
-                >
-                  <FaGithub size={26} />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/kartik-upadhyay11/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn Profile"
-                  className={`hover:text-blue-600 transition-all duration-300 transform hover:scale-110 cursor-pointer ${theme === "dark" ? "text-gray-400" : "text-gray-600"
-                    }`}
-                >
-                  <FaLinkedin size={26} />
-                </a>
-              </div>
-            </motion.div>
+                  <LiquetGlassButton
+                    href="mailto:kartikupadhyay613@gmail.com"
+                    theme={theme}
+                    className="w-full sm:w-auto scale-105"
+                  >
+                    <FaEnvelope /> Email Me
+                  </LiquetGlassButton>
+                </div>
 
-            <motion.div
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              className="flex justify-center lg:justify-end relative"
-            >
-              <div className="relative w-full max-w-[300px] h-[380px] md:w-80 md:h-[420px] rounded-3xl opacity-100 overflow-hidden shadow-2xl border border-white/10 dark:border-gray-800 transition-all duration-500">
-                <img
-                  src={profilepic}
-                  alt="Kartik Upadhyay"
-                  className="w-full h-full object-cover transition-all duration-700"
-                  loading="eager"
-                />
-              </div>
-            </motion.div>
+                <div className="flex items-center gap-8 justify-center lg:justify-start w-full transition-all">
+                  <a
+                    href="https://github.com/kartik-613/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub Profile"
+                    className={`hover:text-blue-500 transition-all duration-300 transform hover:scale-110 cursor-pointer ${theme === "dark" ? "text-gray-400" : "text-gray-600"
+                      }`}
+                  >
+                    <FaGithub size={26} />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/kartik-upadhyay11/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn Profile"
+                    className={`hover:text-blue-600 transition-all duration-300 transform hover:scale-110 cursor-pointer ${theme === "dark" ? "text-gray-400" : "text-gray-600"
+                      }`}
+                  >
+                    <FaLinkedin size={26} />
+                  </a>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                className="flex justify-center lg:justify-end relative"
+              >
+                <div className="relative w-full max-w-[300px] h-[380px] md:w-80 md:h-[420px] rounded-3xl opacity-100 overflow-hidden shadow-2xl border border-white/10 dark:border-gray-800 transition-all duration-500">
+                  <img
+                    src={profilepic}
+                    alt="Kartik Upadhyay"
+                    className="w-full h-full object-cover transition-all duration-700"
+                    loading="eager"
+                  />
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Skills */}
-        <section id="skills" className="max-w-6xl mx-auto px-6 py-16 md:py-24">
-          <h2 className="text-3xl font-bold mb-6 tracking-tight">Core Skills</h2>
-          <p
-            className={`mb-10 max-w-2xl text-lg leading-relaxed ${theme === "dark" ? "text-gray-300" : "text-gray-600"
-              }`}
-          >
-            Strong background in front-end and back-end development using modern
-            JavaScript tooling and cloud deployment.
-          </p>
+        <section id="skills" className="relative overflow-hidden w-full">
+          <div className="absolute inset-0 pointer-events-none opacity-20">
+            <NeuralBackground
+              color={theme === "dark" ? "#6366f1" : "#3b82f6"}
+              backgroundColor={theme === "dark" ? "17, 24, 39" : "249, 250, 251"}
+              trailOpacity={0.1}
+              particleCount={300}
+              speed={0.4}
+            />
+          </div>
+          <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 relative z-10">
+            <h2 className="text-3xl font-bold mb-6 tracking-tight">Core Skills</h2>
+            <p
+              className={`mb-10 max-w-2xl text-lg leading-relaxed ${theme === "dark" ? "text-gray-300" : "text-gray-600"
+                }`}
+            >
+              Strong background in front-end and back-end development using modern
+              JavaScript tooling and cloud deployment.
+            </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[120px] md:auto-rows-[140px]">
-            {SKILLS.map((skill, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.02, y: -4 }}
-                className={`flex flex-col justify-between p-5 rounded-3xl border backdrop-blur-md transition-all duration-300 hover:shadow-2xl cursor-pointer overflow-hidden ${skill.className} ${theme === "dark"
-                  ? "hover:brightness-125"
-                  : "hover:brightness-95 shadow-sm"
-                  }`}
-              >
-                <div className="flex justify-between items-start">
-                  <span className="text-2xl">{skill.icon}</span>
-                  <span className={`text-[10px] uppercase tracking-widest font-bold opacity-60 ${theme === "dark" ? "text-white" : "text-black"
-                    }`}>
-                    {skill.level}
-                  </span>
-                </div>
-                <div>
-                  <h3 className={`text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-gray-900"
-                    }`}>
-                    {skill.name}
-                  </h3>
-                </div>
-              </motion.div>
-            ))}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[120px] md:auto-rows-[140px]">
+              {SKILLS.map((skill, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.02, y: -4 }}
+                  className={`flex flex-col justify-between p-5 rounded-3xl border backdrop-blur-md transition-all duration-300 hover:shadow-2xl cursor-pointer overflow-hidden ${skill.className} ${theme === "dark"
+                    ? "hover:brightness-125"
+                    : "hover:brightness-95 shadow-sm"
+                    }`}
+                >
+                  <div className="flex justify-between items-start">
+                    <span className="text-2xl">{skill.icon}</span>
+                    <span className={`text-[10px] uppercase tracking-widest font-bold opacity-60 ${theme === "dark" ? "text-white" : "text-black"
+                      }`}>
+                      {skill.level}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className={`text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-gray-900"
+                      }`}>
+                      {skill.name}
+                    </h3>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -573,39 +594,93 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer
-        className={`mt-8 md:mt-12 border-t py-6 ${theme === "dark" ? "border-gray-800" : "border-slate-200"
-          }`}
-      >
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-[15px]">
-            &copy; 2025 Kartik Upadhyay. All rights reserved.
+      <footer className={`relative border-t mt-12 overflow-hidden ${theme === "dark"
+        ? "bg-gray-950 border-gray-800"
+        : "bg-white border-slate-100 shadow-[0_-1px_10px_rgba(0,0,0,0.02)]"}`}>
+
+        {/* Subtle Decorative Gradient */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 sm:gap-16">
+
+            {/* Branding Column */}
+            <div className="md:col-span-2 space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-3xl font-bold font-serif tracking-tight">KARTIK</h3>
+                <div className="h-1 w-12 bg-blue-500 rounded-full" />
+              </div>
+              <p className={`text-lg leading-relaxed max-w-sm font-serif ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                MERN Stack Developer dedicated to building scalable, high-performance web applications and exceptional user experiences.
+              </p>
+            </div>
+
+            {/* Navigation Column */}
+            <div className="space-y-6">
+              <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-blue-500">Navigation</h4>
+              <nav className="flex flex-col gap-4">
+                {["Home", "Skills", "Projects", "Experience", "Contact"].map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className={`text-sm font-medium transition-all hover:translate-x-1 inline-block ${theme === "dark" ? "text-gray-400 hover:text-white" : "text-gray-600 hover:text-black"}`}
+                  >
+                    {item}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            {/* Socials Column */}
+            <div className="space-y-6">
+              <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-blue-500">Connect</h4>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="https://github.com/kartik-613/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-3 rounded-2xl border transition-all hover:scale-110 ${theme === "dark"
+                    ? "bg-gray-900/50 border-gray-800 text-gray-300 hover:border-blue-500/50 hover:text-white"
+                    : "bg-gray-50 border-slate-200 text-gray-600 hover:border-blue-200 hover:text-black shadow-sm"}`}
+                >
+                  <FaGithub size={22} />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/kartik-upadhyay11/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-3 rounded-2xl border transition-all hover:scale-110 ${theme === "dark"
+                    ? "bg-gray-900/50 border-gray-800 text-gray-300 hover:border-blue-500/50 hover:text-white"
+                    : "bg-gray-50 border-slate-200 text-gray-600 hover:border-blue-200 hover:text-black shadow-sm"}`}
+                >
+                  <FaLinkedin size={22} />
+                </a>
+                <a
+                  href="mailto:kartikupadhyay613@gmail.com"
+                  className={`p-3 rounded-2xl border transition-all hover:scale-110 ${theme === "dark"
+                    ? "bg-gray-900/50 border-gray-800 text-gray-300 hover:border-blue-500/50 hover:text-white"
+                    : "bg-gray-50 border-slate-200 text-gray-600 hover:border-blue-200 hover:text-black shadow-sm"}`}
+                >
+                  <FaEnvelope size={22} />
+                </a>
+              </div>
+              <a
+                href={Kartik_Resume}
+                download="Kartik_Resume.pdf"
+                className={`inline-block text-xs font-bold uppercase tracking-widest pt-4 hover:text-blue-500 transition-colors ${theme === "dark" ? "text-gray-500" : "text-gray-400"}`}
+              >
+                Download Resume &rarr;
+              </a>
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-sm">
-            <a
-              href="https://github.com/kartik-613/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-gray-400"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/kartik-upadhyay11/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-gray-400"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="/assets/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-gray-400"
-            >
-              Resume
-            </a>
+
+          <div className={`mt-16 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-6 ${theme === "dark" ? "border-gray-800 text-gray-500" : "border-slate-100 text-gray-400"}`}>
+            <p className="text-sm font-medium">
+              &copy; {new Date().getFullYear()} Kartik Upadhyay. All rights reserved.
+            </p>
+            <p className="text-xs uppercase tracking-[0.3em] font-bold">
+              Designed & Developed with <span className="text-red-500 animate-pulse">❤️</span>
+            </p>
           </div>
         </div>
       </footer>
