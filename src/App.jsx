@@ -14,6 +14,7 @@ import MovingBorderButton from "./components/MovingBorderButton";
 import LiquetGlassButton from "./components/LiquetGlassButton";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import SlideInView from "./components/SlideInView";
+import docxitoAppVideo from "./assets/docxitoAppVideo.mp4";
 
 // Optimization: Lazy load heavy components (bundle-dynamic-imports)
 const SmokeyCursor = React.lazy(() => import("./components/SmokeyCursor"));
@@ -348,7 +349,7 @@ export default function App() {
             }`}
         >
           <div className="max-w-6xl mx-auto px-6">
-            <div className="flex flex-col md:flex-row items-baseline justify-between mb-20 gap-4">
+            <div className="flex flex-col md:flex-row items-baseline justify-between mb-12 gap-4">
               <div className="space-y-4">
                 <h2 className="text-3xl font-bold tracking-tight">
                   Highlighted Projects
@@ -360,32 +361,100 @@ export default function App() {
               </a>
             </div>
 
-            {/* Projects Grid: Layout 2 columns with Sync'd Levels */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-              {/* Card 1 */}
-              <ProjectCard p={PROJECTS[0]} theme={theme} className="h-full" />
-
-              {/* Focus iPhone: Spans Row 1 and 2 */}
-              <div className="lg:row-span-2 flex flex-col items-center relative h-full">
-                <div className="absolute inset-0 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
-                <div className="relative group perspective-1000 w-full h-full flex justify-center">
-                  <React.Suspense fallback={
-                    <div className="h-full w-full min-h-[600px] bg-gray-800/50 rounded-[2.5rem] animate-pulse border-4 border-gray-700" />
-                  }>
-                    <Iphone
-                      className="origin-center shadow-2xl scale-100"
-                      videoSrc="https://videos.pexels.com/video-files/8946986/8946986-uhd_1440_2732_25fps.mp4"
-                    />
-                  </React.Suspense>
-                </div>
+            {/* Projects Grid: Dynamic Layout */}
+            <div className="space-y-8">
+              {/* Row 1: Top Projects */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <ProjectCard p={PROJECTS[0]} theme={theme} className="h-full" />
+                <ProjectCard p={PROJECTS[1]} theme={theme} className="h-full" />
               </div>
 
-              {/* Card 2 */}
-              <ProjectCard p={PROJECTS[1]} theme={theme} className="h-full" />
+              {/* Featured: Docxito App - The Mobile Masterpiece */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className={`flex flex-col lg:flex-row items-center gap-8 p-8 rounded-3xl border transition-all duration-700 overflow-hidden relative ${theme === "dark"
+                  ? "bg-gray-900/40 border-gray-800"
+                  : "bg-white border-slate-100 shadow-xl shadow-blue-500/5"
+                  }`}
+              >
+                {/* Background Accent */}
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px] -mr-64 -mt-64 transition-colors duration-700" />
 
-              {/* Extra Row: Card 3 & 4 */}
-              <ProjectCard p={PROJECTS[2]} theme={theme} className="h-full" />
-              <ProjectCard p={PROJECTS[3]} theme={theme} className="h-full" />
+                <div className="flex-1 space-y-4 relative z-10">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[10px] font-bold uppercase tracking-widest">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    </span>
+                    Featured Mobile Project
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+                      {PROJECTS[2].title}
+                    </h3>
+                    <p className={`text-lg md:text-xl leading-relaxed max-w-lg ${theme === "dark" ? "text-gray-300" : "text-gray-600"
+                      }`}>
+                      {PROJECTS[2].desc}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3">
+                    {PROJECTS[2].tech.map((t, i) => (
+                      <span key={i} className={`px-4 py-2 rounded-2xl text-sm font-bold border transition-all ${theme === "dark"
+                        ? "bg-gray-800/50 border-gray-700 text-gray-300 hover:border-blue-500/50"
+                        : "bg-white border-gray-100 text-gray-700 shadow-sm hover:border-blue-200"
+                        }`}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="pt-6 flex flex-wrap gap-5 items-center">
+                    <LiquetGlassButton
+                      href={PROJECTS[2].link}
+                      target="_blank"
+                      theme={theme}
+                      className="!px-7 !py-3.5 text-lg"
+                    >
+                      View Live
+                    </LiquetGlassButton>
+                    <a
+                      href="#"
+                      className={`flex items-center gap-2 font-bold uppercase tracking-widest text-sm transition-all ${theme === "dark" ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-900"
+                        }`}
+                    >
+                      <FaGithub size={22} />
+                      Code
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex-1 w-full max-w-[280px] lg:max-w-[320px]">
+                  <motion.div className="relative">
+                    <div className="absolute inset-0 bg-blue-500/10 rounded-[3rem] blur-[50px] opacity-100" />
+                    <React.Suspense fallback={<div className="h-[480px] bg-gray-800 rounded-[2.5rem] animate-pulse" />}>
+                      <Iphone
+                        className="shadow-[0_25px_70px_-15px_rgba(0,0,0,0.5)] border-gray-900"
+                        videoSrc={docxitoAppVideo}
+                      />
+                    </React.Suspense>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Row 3: Final Project */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <ProjectCard p={PROJECTS[3]} theme={theme} className="h-full" />
+                <div className={`p-8 rounded-3xl border flex items-center justify-center text-center ${theme === "dark" ? "bg-gray-900/20 border-gray-800/50" : "bg-gray-50 border-slate-100"
+                  }`}>
+                  <p className="opacity-40 font-bold uppercase tracking-widest text-sm">
+                    More projects coming soon
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
