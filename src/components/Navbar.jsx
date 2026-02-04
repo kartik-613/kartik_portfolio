@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
-import { HiMenu, HiX, HiSun, HiMoon } from 'react-icons/hi';
+import { HiMenu, HiX, HiSun, HiMoon, HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
+import introAudio from '../assets/into.mp3';
 
 const navItems = [
   { name: "Home", link: "#home" },
@@ -15,7 +16,63 @@ const Navbar = ({ theme, toggleTheme }) => {
   const [visible, setVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('Home');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
   const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.volume = 0.5;
+    audio.preload = "auto";
+
+    const attemptPlay = () => {
+      if (audioRef.current && !isPlaying) {
+        audio.play()
+          .then(() => {
+            setIsPlaying(true);
+            removeTriggers();
+            console.log("Audio started successfully via interaction.");
+          })
+          .catch((err) => {
+            // If failed, we keep the listeners to try again on the next interaction
+            console.log("Audio play attempt blocked by browser. waiting for next gesture...", err);
+          });
+      }
+    };
+
+    const removeTriggers = () => {
+      const events = ['click', 'scroll', 'touchstart', 'mousedown', 'keydown', 'wheel', 'touchmove', 'pointerdown'];
+      events.forEach(event => window.removeEventListener(event, attemptPlay));
+    };
+
+    // 1. Try to play immediately (works if user has interacted with the domain before)
+    audio.play()
+      .then(() => {
+        setIsPlaying(true);
+      })
+      .catch(() => {
+        // 2. If blocked, setup listeners for ANY movement or interaction
+        const interactionEvents = ['click', 'scroll', 'touchstart', 'mousedown', 'keydown', 'wheel', 'touchmove', 'pointerdown'];
+        interactionEvents.forEach(event => {
+          window.addEventListener(event, attemptPlay, { passive: true });
+        });
+      });
+
+    return () => removeTriggers();
+  }, [isPlaying]);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.log("Manual play blocked", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const progress = Math.min(latest / 150, 1);
@@ -104,6 +161,23 @@ const Navbar = ({ theme, toggleTheme }) => {
         <div className="flex items-center gap-3">
 
           <motion.button
+            onClick={toggleAudio}
+            aria-label="Toggle audio"
+            className={`p-2 rounded-full transition-all duration-200 ${theme === 'dark'
+              ? 'hover:bg-gray-800 bg-gray-800/50 border border-gray-700'
+              : 'hover:bg-gray-100 bg-white border border-gray-300'
+              }`}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            {isPlaying ? (
+              <HiVolumeUp className="w-5 h-5 text-blue-500" />
+            ) : (
+              <HiVolumeOff className="w-5 h-5 text-gray-500" />
+            )}
+          </motion.button>
+
+          <motion.button
             onClick={toggleTheme}
             aria-label="Toggle theme"
             className={`p-2 rounded-lg transition-all duration-200 ${theme === 'dark'
@@ -121,6 +195,8 @@ const Navbar = ({ theme, toggleTheme }) => {
           </motion.button>
         </div>
       </motion.div>
+
+      <audio ref={audioRef} src={introAudio} loop={false} />
 
       {/* Mobile Navigation */}
       <motion.div
@@ -145,6 +221,20 @@ const Navbar = ({ theme, toggleTheme }) => {
           </div>
 
           <div className="flex items-center gap-3">
+            <motion.button
+              onClick={toggleAudio}
+              className={`p-2 rounded-full transition-all ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                }`}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {isPlaying ? (
+                <HiVolumeUp className="w-5 h-5 text-blue-500" />
+              ) : (
+                <HiVolumeOff className="w-5 h-5 text-gray-500" />
+              )}
+            </motion.button>
+
             <motion.button
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-all ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
