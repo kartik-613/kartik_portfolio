@@ -32,12 +32,14 @@ const ProjectCard = React.memo(function ProjectCard({ p, theme, className = "" }
         : "bg-white/40 border-white/60 hover:bg-white/60 hover:shadow-3xl hover:border-blue-200"
         } ${className}`}
     >
-      <div className="relative overflow-hidden shrink-0">
+      <div className={`relative overflow-hidden shrink-0 ${theme === "dark" ? "bg-gray-800" : "bg-gray-200"} min-h-[176px]`}>
         <img
           src={p.img}
           alt={p.title}
           className="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
+          onLoad={(e) => e.currentTarget.style.opacity = 1}
+          style={{ opacity: 0, transition: "opacity 0.5s ease-in-out" }}
         />
         <div
           className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-300 ${theme === "dark"
@@ -200,7 +202,11 @@ export default function App() {
         }`}
     >
       <React.Suspense fallback={null}>
-        <SmokeyCursor />
+        <SmokeyCursor
+          simulationResolution={typeof window !== "undefined" && window.innerWidth < 768 ? 64 : 128}
+          pressureIterations={typeof window !== "undefined" && window.innerWidth < 768 ? 10 : 20}
+          enableShading={typeof window !== "undefined" && window.innerWidth >= 768}
+        />
       </React.Suspense>
       <Navbar
         theme={theme}
@@ -215,7 +221,7 @@ export default function App() {
               color={theme === "dark" ? "#6366f1" : "#3b82f6"}
               backgroundColor={theme === "dark" ? "17, 24, 39" : "249, 250, 251"}
               trailOpacity={0.1}
-              particleCount={400}
+              particleCount={typeof window !== "undefined" && window.innerWidth < 768 ? 150 : 400}
               speed={0.5}
             />
           </div>
@@ -320,7 +326,7 @@ export default function App() {
               color={theme === "dark" ? "#6366f1" : "#3b82f6"}
               backgroundColor={theme === "dark" ? "17, 24, 39" : "249, 250, 251"}
               trailOpacity={0.1}
-              particleCount={300}
+              particleCount={typeof window !== "undefined" && window.innerWidth < 768 ? 100 : 300}
               speed={0.4}
             />
           </div>

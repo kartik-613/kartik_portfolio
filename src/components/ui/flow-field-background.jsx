@@ -100,11 +100,11 @@ export default function NeuralBackground({
         let height = container.clientHeight;
         let particles = [];
         let animationFrameId;
-        let mouse = { x: -1000, y: -1000 }; // Start off-screen
+        let mouse = { x: -1000, y: -1000 };
+        let isVisible = false;
 
         // --- INITIALIZATION ---
         const init = () => {
-            // Handle High-DPI screens (Retina)
             const dpr = window.devicePixelRatio || 1;
             canvas.width = width * dpr;
             canvas.height = height * dpr;
@@ -120,8 +120,8 @@ export default function NeuralBackground({
 
         // --- ANIMATION LOOP ---
         const animate = () => {
-            // "Fade" effect: Instead of clearing the canvas, we draw a semi-transparent rect
-            // This creates the "Trails" look.
+            if (!isVisible) return;
+
             ctx.fillStyle = `rgba(${backgroundColor}, ${trailOpacity})`;
             ctx.fillRect(0, 0, width, height);
 
@@ -132,6 +132,21 @@ export default function NeuralBackground({
 
             animationFrameId = requestAnimationFrame(animate);
         };
+
+        // --- INTERSECTION OBSERVER ---
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                isVisible = entry.isIntersecting;
+                if (isVisible) {
+                    animate();
+                } else {
+                    cancelAnimationFrame(animationFrameId);
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        observer.observe(canvas);
 
         // --- EVENT LISTENERS ---
         const handleResize = () => {
@@ -153,7 +168,6 @@ export default function NeuralBackground({
 
         // Start
         init();
-        animate();
 
         window.addEventListener("resize", handleResize);
         container.addEventListener("mousemove", handleMouseMove);
@@ -164,6 +178,7 @@ export default function NeuralBackground({
             container.removeEventListener("mousemove", handleMouseMove);
             container.removeEventListener("mouseleave", handleMouseLeave);
             cancelAnimationFrame(animationFrameId);
+            observer.disconnect();
         };
     }, [color, backgroundColor, trailOpacity, particleCount, speed]);
 
