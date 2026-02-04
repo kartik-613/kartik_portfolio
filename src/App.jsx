@@ -594,9 +594,9 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className={`relative border-t mt-12 overflow-hidden ${theme === "dark"
-        ? "bg-gray-950 border-gray-800"
-        : "bg-white border-slate-100 shadow-[0_-1px_10px_rgba(0,0,0,0.02)]"}`}>
+      <footer className={`relative border-t mt-12 overflow-hidden transition-all duration-500 ${theme === "dark"
+        ? "bg-gray-900 border-gray-800"
+        : "bg-gray-50 border-slate-200"}`}>
 
         {/* Subtle Decorative Gradient */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
