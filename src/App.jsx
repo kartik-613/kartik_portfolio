@@ -7,7 +7,7 @@ import one from "./assets/one.jpeg";
 import two from "./assets/two.gif";
 import three from "./assets/three.gif";
 import four from "./assets/four.jpeg";
-import Kartik_Resume from "./assets/Kartik_Resume.pdf";
+import Kartik_Resume from "./assets/kartik_Resume_react_reactNative.pdf";
 import MovingBorderButton from "./components/MovingBorderButton";
 import LiquetGlassButton from "./components/LiquetGlassButton";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
