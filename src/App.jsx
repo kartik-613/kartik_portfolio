@@ -529,29 +529,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Testimonial / Quick reference */}
-        <section
-          className={`py-16 md:py-24 ${theme === "dark" ? "bg-gray-800/20" : "bg-white"}`}
-        >
-          <div className="max-w-4xl mx-auto px-6 text-center">
-            <h3 className="text-2xl font-bold mb-6 tracking-tight">Client Feedback</h3>
-            <p
-              className={`italic text-xl leading-relaxed ${theme === "dark" ? "text-gray-300" : "text-slate-700"
-                }`}
-            >
-              "Kartik was fantastic to work with. His expertise in web and app
-              development, along with his attention to detail, made the project
-              seamless and efficient."
-            </p>
-            <div
-              className={`mt-6 text-base font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-600"
-                }`}
-            >
-              – Parth Shah
-            </div>
-          </div>
-        </section>
-
         {/* Contact */}
         <section id="contact" className="max-w-4xl mx-auto px-6 py-16 md:py-32">
           <div
