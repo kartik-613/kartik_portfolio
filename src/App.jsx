@@ -396,89 +396,114 @@ export default function App() {
                 <ProjectCard p={PROJECTS[1]} theme={theme} className="h-full" />
               </div>
 
-              {/* Featured: Docxito App - The Mobile Masterpiece */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className={`flex flex-col lg:flex-row items-center gap-8 p-8 rounded-3xl border transition-all duration-700 overflow-hidden relative ${theme === "dark"
-                  ? "bg-gray-900/40 border-gray-800"
-                  : "bg-white border-slate-100 shadow-xl shadow-blue-500/5"
-                  }`}
-              >
-                {/* Background Accent */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px] -mr-64 -mt-64 transition-colors duration-700" />
+              {/* New Multi-Column Layout: Docxito, iPhone, and Small Business */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Left Column: Docxito Details and Small Business Tools */}
+                <div className="lg:col-span-8 flex flex-col gap-8">
+                  {/* Card 1: Docxito App Info */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className={`flex flex-col p-8 rounded-3xl border transition-all duration-700 relative overflow-hidden h-full ${theme === "dark"
+                      ? "bg-gray-900/40 border-gray-800"
+                      : "bg-white border-slate-100 shadow-xl shadow-blue-500/5"
+                      }`}
+                  >
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-[80px] -mr-32 -mt-32" />
 
-                <div className="flex-1 space-y-4 relative z-10">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[10px] font-bold uppercase tracking-widest">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                    </span>
-                    Featured Mobile Project
-                  </div>
+                    <div className="relative z-10 space-y-5">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[10px] font-bold uppercase tracking-widest">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                        </span>
+                        Featured Mobile App
+                      </div>
 
-                  <div className="space-y-4">
-                    <h3 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-                      {PROJECTS[2].title}
-                    </h3>
-                    <p className={`text-lg md:text-xl leading-relaxed max-w-lg ${theme === "dark" ? "text-gray-300" : "text-gray-600"
-                      }`}>
-                      {PROJECTS[2].desc}
-                    </p>
-                  </div>
+                      <div className="space-y-4">
+                        <h3 className="text-3xl md:text-4xl font-bold tracking-tight">
+                          {PROJECTS[2].title}
+                        </h3>
+                        <p className={`text-base md:text-lg leading-relaxed ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
+                          {PROJECTS[2].desc}
+                        </p>
+                      </div>
 
-                  <div className="flex flex-wrap gap-3">
-                    {PROJECTS[2].tech.map((t, i) => (
-                      <span key={i} className={`px-4 py-2 rounded-2xl text-sm font-bold border transition-all ${theme === "dark"
-                        ? "bg-gray-800/50 border-gray-700 text-gray-300 hover:border-blue-500/50"
-                        : "bg-white border-gray-100 text-gray-700 shadow-sm hover:border-blue-200"
-                        }`}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                      <div className="flex flex-wrap gap-2">
+                        {PROJECTS[2].tech.map((t, i) => (
+                          <span key={i} className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${theme === "dark"
+                            ? "bg-gray-800/50 border-gray-700 text-gray-300"
+                            : "bg-gray-50 border-gray-100 text-gray-700"
+                            }`}>
+                            {t}
+                          </span>
+                        ))}
+                      </div>
 
-                  <div className="pt-6 flex flex-wrap gap-5 items-center">
-                    <LiquetGlassButton
-                      href={PROJECTS[2].link}
-                      target="_blank"
-                      theme={theme}
-                      className="!px-7 !py-3.5 text-lg"
-                    >
-                      View Live
-                    </LiquetGlassButton>
-                    <a
-                      href="#"
-                      className={`flex items-center gap-2 font-bold uppercase tracking-widest text-sm transition-all ${theme === "dark" ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-900"
-                        }`}
-                    >
-                      <FaGithub size={22} />
-                      Code
-                    </a>
+                      <div className="pt-4 flex flex-wrap gap-5 items-center">
+                        <LiquetGlassButton
+                          href={PROJECTS[2].link}
+                          target="_blank"
+                          theme={theme}
+                          className="!px-6 !py-2.5"
+                        >
+                          View Live
+                        </LiquetGlassButton>
+                        <a
+                          href="#"
+                          className={`flex items-center gap-2 font-bold uppercase tracking-widest text-xs transition-all ${theme === "dark" ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-900"}`}
+                        >
+                          <FaGithub size={20} />
+                          Code
+                        </a>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Card 2: Small Business Tools */}
+                  <div className="h-full">
+                    <ProjectCard p={PROJECTS[3]} theme={theme} className="h-full" />
                   </div>
                 </div>
 
-                <div className="flex-1 w-full max-w-[280px] lg:max-w-[320px]">
-                  <motion.div className="relative">
-                    <div className="absolute inset-0 bg-blue-500/10 rounded-[3rem] blur-[50px] opacity-100" />
-                    <React.Suspense fallback={<div className="h-[480px] bg-gray-800 rounded-[2.5rem] animate-pulse" />}>
-                      <Iphone
-                        className="shadow-[0_25px_70px_-15px_rgba(0,0,0,0.5)] border-gray-900"
-                        videoSrc={docxitoAppVideo}
-                      />
-                    </React.Suspense>
+                {/* Right Column: iPhone Preview Box */}
+                <div className="lg:col-span-4 h-full">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className={`h-full min-h-[500px] flex flex-col items-center justify-center p-8 rounded-3xl border transition-all duration-700 relative overflow-hidden ${theme === "dark"
+                      ? "bg-gray-900/40 border-gray-800 shadow-2xl"
+                      : "bg-white border-slate-100 shadow-xl shadow-blue-500/5"
+                      }`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent rounded-3xl blur-[100px]" />
+
+                    <div className="relative z-10 w-full flex justify-center">
+                      <React.Suspense fallback={<div className="h-[480px] w-64 bg-gray-800/20 rounded-[2.5rem] animate-pulse" />}>
+                        <Iphone
+                          className="shadow-[0_25px_70px_-15px_rgba(0,0,0,0.5)] border-gray-900 scale-90 sm:scale-100"
+                          videoSrc={docxitoAppVideo}
+                        />
+                      </React.Suspense>
+                    </div>
+
+                    <div className="mt-8 text-center relative z-10">
+                      <p className={`text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 ${theme === "dark" ? "text-white" : "text-black"}`}>
+                        Interactive Experience
+                      </p>
+                    </div>
                   </motion.div>
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Row 3: Final Project */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <ProjectCard p={PROJECTS[3]} theme={theme} className="h-full" />
-                <div className={`p-8 rounded-3xl border flex items-center justify-center text-center ${theme === "dark" ? "bg-gray-900/20 border-gray-800/50" : "bg-gray-50 border-slate-100"
+              {/* Final Footer Row for Projects */}
+              <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 pt-4">
+                <div className={`p-6 rounded-3xl border flex items-center justify-center text-center ${theme === "dark" ? "bg-gray-900/10 border-gray-800/30" : "bg-gray-50 border-slate-50"
                   }`}>
-                  <p className="opacity-40 font-bold uppercase tracking-widest text-sm">
-                    More projects coming soon
+                  <p className="opacity-30 font-bold uppercase tracking-widest text-xs">
+                    More innovative projects in development
                   </p>
                 </div>
               </div>
